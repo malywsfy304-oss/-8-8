@@ -34,7 +34,7 @@ input, select, button {
   border: none;
   border-radius: 8px;
   transition: background-color 0.3s ease, transform 0.2s ease; 
-   color: rgb(204, 207, 12);
+   color: #f39c12 ;
 }
 
 input:hover, select:hover, button:hover {
@@ -50,3 +50,4 @@ input:hover, select:hover, button:hover {
   font-size: 18px;
   color: #319b84;
 }
+
