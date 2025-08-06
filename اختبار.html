@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <title>تسجيل دخول - نظام الدراسة السعودي</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="صفحة تسجيل دخول للطلاب السعوديين في نظام الدراسة السعودي" />
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; font-family:"Segoe UI", Tahoma, Geneva, Verdana, sans-serif; }
+    body {
+      background: linear-gradient(135deg,#1e3c72,#2a5298);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      color: #fff;
+      padding: 20px;
+    }
+    nav {
+      margin: 20px 0;
+      display: flex;
+      gap: 20px;
+    }
+    nav a {
+      text-decoration: none;
+      color: #eee;
+      padding: 10px 18px;
+      border-radius: 8px;
+      font-weight: 600;
+      transition: background-color 0.3s, color 0.3s;
+    }
+    nav a.active, nav a:hover {
+      background-color: #4cc9f0;
+      color: #fff;
+      font-weight: 700;
+      box-shadow: 0 3px 10px rgba(76,201,240,0.6);
+    }
+    .login-container {
+      background: rgba(255 255 255 / 0.1);
+      padding: 30px 40px;
+      border-radius: 15px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+      max-width: 420px;
+      width: 100%;
+      text-align: center;
+    }
+    h2 {
+      margin-bottom: 25px;
+      font-weight: 700;
+      font-size: 2rem;
+      text-shadow: 1px 1px 5px rgba(0,0,0,0.4);
+    }
+    label {
+      display: block;
+      text-align: right;
+      margin-bottom: 8px;
+      font-weight: 600;
+      font-size: 1rem;
+    }
+    input[type="text"] {
+      width: 100%;
+      padding: 10px 12px;
+      border-radius: 8px;
+      border: none;
+      margin-bottom: 20px;
+      font-size: 1rem;
+    }
+    input[type="text"]:focus {
+      outline: none;
+      box-shadow: 0 0 8px #4cc9f0;
+    }
+    button {
+      width: 100%;
+      padding: 14px 0;
+      border: none;
+      border-radius: 12px;
+      background-color: #4cc9f0;
+      color: #fff;
+      font-size: 1.2rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      box-shadow: 0 5px 15px rgba(76,201,240,0.6);
+    }
+    button:hover {
+      background-color: #2196f3;
+      box-shadow: 0 7px 20px rgba(33,150,243,0.8);
+    }
+    .footer-link {
+      margin-top: 15px;
+      font-size: 0.9rem;
+      color: #cce7f0;
+    }
+    .footer-link a {
+      color: #a0d8ef;
+      text-decoration: none;
+      font-weight: 600;
+    }
+    .footer-link a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <a href="خدمة مدرستي.html" class="nav-link">الرئيسية</a>
+   
+    <a href="الخطة.html" class="nav-link">الخطة</a>
+    <a href="اختبارر.html" class="nav-link">جدول اختباراتك</a>
+    <a href="الاقسام.html"  class="nav-link" >العودة الى الأقسام</a>
+
+  </nav>
+
+  <div class="login-container">
+    <h2>تسجيل الدخول لجدول اختبار </h2>
+    <form id="loginForm">
+      <label for="name">الاسم الكامل:</label>
+      <input type="text" id="name" placeholder="أدخل اسمك الكامل" required />
+
+      <label for="grade">الصف الدراسي:</label>
+      <input type="text" id="grade" placeholder="مثال: الثالث المتوسط" required />
+
+      <label for="school">اسم المدرسة:</label>
+      <input type="text" id="school" placeholder="اسم مدرستك" required />
+
+      <button type="submit">دخول</button>
+    </form>
+    <div class="footer-link">
+
+    </div>
+  </div>
+
+  <footer>
+
+    © 2025 موقع أدوات - تصميم وتطوير محمد اليوسفي
+  </footer>
+
+  <script>
+    const links = document.querySelectorAll('.nav-link');
+    const currentPage = location.pathname.split('/').pop();
+    links.forEach(link => {
+      if(link.getAttribute('href') === currentPage) {
+        link.classList.add('active');
+      }
+    });
+
+    document.getElementById('loginForm').addEventListener('submit', e => {
+      e.preventDefault();
+      const name = document.getElementById('name').value.trim();
+      const grade = document.getElementById('grade').value.trim();
+      const school = document.getElementById('school').value.trim();
+
+      if(!name || !grade || !school) {
+        alert('يرجى تعبئة جميع الحقول.');
+        return;
+      }
+
+      const studentData = {name, grade, school};
+      localStorage.setItem('studentData', JSON.stringify(studentData));
+      alert(`مرحبًا ${name}! تم تسجيل الدخول بنجاح.     `);
+      window.location.href = 'اختبارر.html';
+    });
+  </script>
+</body>
+</html>

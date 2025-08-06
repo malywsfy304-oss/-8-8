@@ -1,0 +1,52 @@
+/* الخط الافتراضي وتعديل الحواف */
+* {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  box-sizing: border-box;
+
+}
+
+/* خلفية الصفحة */
+body {
+  background-image: linear-gradient(to left, #a7588ecc, #bf6d8883), url('dd.jpg');
+  background-size: cover;
+  background-position: center;
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+}
+
+/* الحاوية الأساسية للحاسبة */
+.calculator {
+  background-color: rgba(255, 255, 255, 0.85);
+  padding: 25px 35px;
+  border-radius: 15px;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.3);
+  text-align: center;  
+
+}
+
+
+input, select, button {
+  width: 100%;
+  margin: 10px 0;
+  padding: 12px;
+  font-size: 16px;
+  border: none;
+  border-radius: 8px;
+  transition: background-color 0.3s ease, transform 0.2s ease; 
+   color: rgb(204, 207, 12);
+}
+
+input:hover, select:hover, button:hover {
+  background-color: rgb(82, 77, 71);
+  cursor: pointer;
+  transform: scale(1.03);
+}
+
+
+#result {
+  margin-top: 15px;
+  font-weight: bold;
+  font-size: 18px;
+  color: #319b84;
+}

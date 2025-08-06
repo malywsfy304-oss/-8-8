@@ -1,0 +1,89 @@
+    /* تنسيقات عامة */
+    body {
+      font-family: "Tahoma", sans-serif;
+      background-color: #f2f2f2;
+      margin: 0;
+      padding: 0;
+      line-height: 1.6;
+      color: #333;
+    }
+
+    /* رأس الصفحة */
+    header h1 {
+      background-color: #93da0f;
+      color: white;
+      text-align: center;
+      padding: 20px;
+      border-radius: 0 0 15px 15px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    /* القائمة الرئيسية */
+    nav.jon {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      background-color: #2196F3;
+      padding: 10px;
+      border-bottom: 3px solid #0d47a1;
+    }
+
+    nav.jon a {
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+      transition: color 0.3s;
+    }
+
+    nav.jon a:hover {
+      color: #ffeb3b;
+    }
+
+    /* عنوان القسم */
+    .u {
+      text-align: center;
+      margin-top: 30px;
+      font-size: 24px;
+      color: #680b22;
+    }
+
+    /* قسم الخدمات */
+    .services {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 15px;
+      margin: 20px;
+    }
+
+    .services a.rota {
+      display: block;
+      width: 80%;
+      background-color: #fff;
+      border: 2px solid #4CAF50;
+      border-left: 6px solid #4CAF50;
+      padding: 15px;
+      text-align: right;
+      text-decoration: none;
+      color: #333;
+      font-size: 18px;
+      border-radius: 10px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s ease-in-out;
+    }
+
+    .services a.rota:hover {
+      border-left-color: #2196F3;
+      background-color: #f9f9f9;
+      transform: translateY(-2px);
+    }
+
+    /* الفوتر */
+    footer {
+      background-color: #333;
+      color: white;
+      text-align: center;
+      padding: 15px;
+      margin-top: 40px;
+      border-top: 4px solid #4CAF50;
+    }

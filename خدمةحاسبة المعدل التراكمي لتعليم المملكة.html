@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>حاسبة ترتيب الطلاب النهائية - موقع أدوات</title>
+<meta name="description" content="حاسبة ترتيب الطلاب النهائية السعودية مع حفظ البيانات محليًا، إضافة وتعديل وحذف الطلاب بسهولة، وتصنيفهم حسب درجات الفصول الثلاثة بنسب 25%، 35%، 40%." />
+<meta name="keywords" content="حاسبة ترتيب الطلاب, درجات الطلاب النهائية, نظام سعودي, موقع أدوات, ترتيب الطلاب, حفظ بيانات, درجات الفصول" />
+<meta name="author" content="محمد اليوسفي - موقع أدوات" />
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet" />
+<style>
+  * {
+    box-sizing: border-box;
+  }
+  body {
+    font-family: 'Cairo', sans-serif;
+    background: linear-gradient(135deg, #f0f4f8, #d9e2ec);
+    margin: 0; padding: 20px;
+    color: #222;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  h1 {
+    color: #1976d2;
+    margin-bottom: 25px;
+    text-align: center;
+    font-weight: 700;
+  }
+  .container {
+    background: white;
+    width: 100%;
+    max-width: 700px;
+    border-radius: 20px;
+    padding: 30px 35px;
+    box-shadow: 0 10px 25px rgba(25, 118, 210, 0.15);
+    animation: fadeIn 1s ease forwards;
+  }
+  @keyframes fadeIn {
+    from {opacity: 0; transform: translateY(30px);}
+    to {opacity: 1; transform: translateY(0);}
+  }
+  form {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+  }
+  label {
+    flex: 1 1 100%;
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: #444;
+  }
+  input[type="text"], input[type="number"] {
+    flex: 1 1 30%;
+    padding: 10px 14px;
+    border: 2px solid #1976d2;
+    border-radius: 12px;
+    font-size: 16px;
+    transition: border-color 0.3s ease;
+    text-align: center;
+  }
+  input[type="text"]:focus, input[type="number"]:focus {
+    border-color: #0d47a1;
+    outline: none;
+    background: #e3f2fd;
+  }
+  button {
+    flex: 1 1 35%;
+    background: #1976d2;
+    border: none;
+    color: white;
+    font-weight: 700;
+    font-size: 17px;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    padding: 12px 0;
+    align-self: flex-end;
+  }
+  button:hover {
+    background: #0d47a1;
+  }
+  .students-list {
+    max-height: 400px;
+    overflow-y: auto;
+    margin-top: 10px;
+    border-radius: 15px;
+    box-shadow: inset 0 0 12px #cfd8dc;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  thead tr {
+    background: #1976d2;
+    color: white;
+  }
+  thead th, tbody td {
+    padding: 12px 14px;
+    text-align: center;
+    border-bottom: 1px solid #e0e0e0;
+    font-size: 15px;
+  }
+  tbody tr:nth-child(even) {
+    background: #f6f9fc;
+  }
+  tbody tr:hover {
+    background: #e3f2fd;
+  }
+  .actions button {
+    background: #ef5350;
+    border: none;
+    color: white;
+    font-weight: 700;
+    padding: 6px 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    margin: 0 4px;
+    transition: background 0.25s ease;
+  }
+  .actions button.edit {
+    background: #42a5f5;
+  }
+  .actions button:hover {
+    opacity: 0.85;
+  }
+  .footer {
+    margin-top: 35px;
+    text-align: center;
+    font-size: 13px;
+    color: #888;
+    border-top: 1px solid #ccc;
+    padding-top: 18px;
+  }
+  .back-link {
+    display: inline-block;
+    margin: 20px 0 0 0;
+    font-weight: 700;
+    color: #1976d2;
+    text-decoration: none;
+    font-size: 14px;
+    transition: color 0.3s ease;
+  }
+  .back-link:hover {
+    color: #0d47a1;
+    text-decoration: underline;
+  }
+  .counter {
+    font-weight: 700;
+    margin-bottom: 15px;
+    color: #555;
+    text-align: right;
+  }
+  @media (max-width: 480px) {
+    form {
+      flex-direction: column;
+    }
+    input[type="text"], input[type="number"], button {
+      flex: 1 1 100%;
+    }
+  }
+</style>
+</head>
+<body>
+
+<div class="container" role="main" aria-label="حاسبة ترتيب الطلاب النهائية">
+
+  <h1>حاسبة ترتيب الطلاب النهائية</h1>
+
+  <form id="studentForm" aria-label="نموذج إضافة أو تعديل طالب">
+    <label for="studentName">اسم الطالب</label>
+    <input type="text" id="studentName" placeholder="أدخل اسم الطالب" required aria-required="true" autocomplete="off" />
+
+    <label for="score1">درجة الفصل الأول (25%)</label>
+    <input type="number" id="score1" min="0" max="100" step="0.01" placeholder="0 - 100" required aria-required="true" />
+
+    <label for="score2">درجة الفصل الثاني (35%)</label>
+    <input type="number" id="score2" min="0" max="100" step="0.01" placeholder="0 - 100" required aria-required="true" />
+
+    <label for="score3">درجة الفصل الثالث (40%)</label>
+    <input type="number" id="score3" min="0" max="100" step="0.01" placeholder="0 - 100" required aria-required="true" />
+
+    <button type="submit" aria-label="إضافة أو تحديث الطالب">إضافة طالب</button>
+  </form>
+
+  <div class="counter" id="studentCount">عدد الطلاب: 0</div>
+
+  <div class="students-list" role="region" aria-live="polite" aria-label="قائمة الطلاب وترتيبهم">
+    <table aria-describedby="studentCount">
+      <thead>
+        <tr>
+          <th>الترتيب</th>
+          <th>اسم الطالب</th>
+          <th>فصل 1 (25%)</th>
+          <th>فصل 2 (35%)</th>
+          <th>فصل 3 (40%)</th>
+          <th>المجموع</th>
+          <th>التقدير</th>
+          <th>إجراءات</th>
+        </tr>
+      </thead>
+      <tbody id="studentsTableBody">
+        <!-- الطلاب هنا -->
+      </tbody>
+    </table>
+  </div>
+
+  <button id="clearAllBtn" style="display:none; margin-top:15px; background:#d32f2f; color:#fff; border:none; padding:10px 15px; border-radius:12px; cursor:pointer; font-weight:700; transition: background 0.3s;">حذف الكل</button>
+
+  <a href="الرائج.html" class="back-link" >↩️ العودة إلى الرائج</a>
+<h4>جرب ايضا</h4>
+<p><a href="حاسبة عمر.html" class="back-link"> ↩️حاسبة العمر بجميع التواريخ</a></p>
+<p><a href="خدمة مدرستي.html"class="back-link" >↩️مكان فيه كل جداولك المدرسية</a></p>
+  <div class="footer" role="contentinfo">
+    موقع أدوات - تصميم وبرمجة: محمد اليوسفي
+  </div>
+
+</div>
+
+<script>
+  (() => {
+    const studentForm = document.getElementById('studentForm');
+    const studentNameInput = document.getElementById('studentName');
+    const score1Input = document.getElementById('score1');
+    const score2Input = document.getElementById('score2');
+    const score3Input = document.getElementById('score3');
+    const studentsTableBody = document.getElementById('studentsTableBody');
+    const studentCount = document.getElementById('studentCount');
+    const clearAllBtn = document.getElementById('clearAllBtn');
+
+    let students = JSON.parse(localStorage.getItem('studentsData')) || [];
+    let editIndex = null;
+
+    function getGrade(score) {
+      if (score >= 90) return 'ممتاز+';
+      if (score >= 80) return 'ممتاز';
+      if (score >= 70) return 'جيد جدًا';
+      if (score >= 60) return 'جيد';
+      return 'راسب';
+    }
+
+    function saveToStorage() {
+      localStorage.setItem('studentsData', JSON.stringify(students));
+    }
+
+    function renderStudents() {
+      students.sort((a,b) => b.total - a.total);
+      studentsTableBody.innerHTML = '';
+      students.forEach((student, idx) => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td>${idx + 1}</td>
+          <td>${student.name}</td>
+          <td>${student.score1.toFixed(2)}</td>
+          <td>${student.score2.toFixed(2)}</td>
+          <td>${student.score3.toFixed(2)}</td>
+          <td>${student.total.toFixed(2)}</td>
+          <td>${getGrade(student.total)}</td>
+          <td class="actions">
+            <button class="edit" aria-label="تعديل ${student.name}">تعديل</button>
+            <button class="delete" aria-label="حذف ${student.name}">حذف</button>
+          </td>
+        `;
+        studentsTableBody.appendChild(tr);
+      });
+
+      studentCount.textContent = `عدد الطلاب: ${students.length}`;
+      clearAllBtn.style.display = students.length ? 'block' : 'none';
+    }
+
+    function clearForm() {
+      studentNameInput.value = '';
+      score1Input.value = '';
+      score2Input.value = '';
+      score3Input.value = '';
+      editIndex = null;
+      studentForm.querySelector('button[type="submit"]').textContent = 'إضافة طالب';
+    }
+
+    studentForm.addEventListener('submit', e => {
+      e.preventDefault();
+
+      const name = studentNameInput.value.trim();
+      const score1 = parseFloat(score1Input.value);
+      const score2 = parseFloat(score2Input.value);
+      const score3 = parseFloat(score3Input.value);
+
+      if (!name) {
+        alert('الرجاء إدخال اسم الطالب');
+        return;
+      }
+      if ([score1, score2, score3].some(s => isNaN(s) || s < 0 || s > 100)) {
+        alert('الرجاء إدخال درجات صحيحة بين 0 و 100 لكل الفصول');
+        return;
+      }
+
+      // حساب المجموع حسب الأوزان
+      const total = (score1 * 0.25) + (score2 * 0.35) + (score3 * 0.40);
+
+      if(editIndex !== null) {
+        // تعديل
+        students[editIndex] = {name, score1, score2, score3, total};
+        alert('تم تعديل بيانات الطالب');
+      } else {
+        // إضافة جديد
+        students.push({name, score1, score2, score3, total});
+        alert('تم إضافة الطالب بنجاح');
+      }
+
+      saveToStorage();
+      renderStudents();
+      clearForm();
+    });
+
+    studentsTableBody.addEventListener('click', e => {
+      if(e.target.classList.contains('edit')) {
+        const rowIndex = Array.from(studentsTableBody.children).indexOf(e.target.closest('tr'));
+        const student = students[rowIndex];
+        studentNameInput.value = student.name;
+        score1Input.value = student.score1;
+        score2Input.value = student.score2;
+        score3Input.value = student.score3;
+        editIndex = rowIndex;
+        studentForm.querySelector('button[type="submit"]').textContent = 'تحديث بيانات الطالب';
+        studentNameInput.focus();
+      }
+      if(e.target.classList.contains('delete')) {
+        const rowIndex = Array.from(studentsTableBody.children).indexOf(e.target.closest('tr'));
+        if(confirm(`هل أنت متأكد من حذف الطالب "${students[rowIndex].name}"؟`)) {
+          students.splice(rowIndex, 1);
+          saveToStorage();
+          renderStudents();
+          if(editIndex === rowIndex) clearForm();
+        }
+      }
+    });
+
+    clearAllBtn.addEventListener('click', () => {
+      if(confirm('هل تريد حذف جميع بيانات الطلاب؟')) {
+        students = [];
+        saveToStorage();
+        renderStudents();
+        clearForm();
+      }
+    });
+
+    // أول تحميل للصفحة
+    renderStudents();
+  })();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>عن موقع أدوات - مع شريط تنقل</title>
+<meta name="description" content="موقع أدوات يقدم أدوات مجانية سهلة الاستخدام مع تصميم جذاب وتحريك سلس لتجربة مستخدم مميزة." />
+
+</head>
+<link rel="stylesheet" href="تنسيق عنا.css">
+<body>
+
+<div id="loading">
+  جارِ التحميل
+  <div class="spinner"></div>
+</div>
+
+<nav>
+  <a href="index.html">الرئيسية</a>
+  <a href="الرائج.html">الرائج</a>
+  <a href="الاقسام.html">الأقسام</a>
+  <a href="عنا.html" class="active">حول</a>
+</nav>
+
+<header>
+  <h1>مرحبًا بك في موقع أدوات</h1>
+  <p>منصة أدوات مجانية وسهلة الاستخدام مع تصميم جذاب وتحريك سلس</p>
+</header>
+
+<main>
+  <section>
+    <h2 class="toggle">رؤيتنا</h2>
+    <p class="content">
+      هدفنا هو توفير أدوات رقمية بسيطة وعملية تُسهل على الجميع مهامهم اليومية وتوفر الوقت والجهد.
+    </p>
+  </section>
+
+  <section>
+    <h2 class="toggle">رسالتنا</h2>
+    <p class="content">
+      تقديم أدوات مجانية، متطورة، وسهلة الاستخدام تلبي احتياجات المستخدمين مع تحديث مستمر وتطوير دائم.
+    </p>
+  </section>
+
+  <section class="cards">
+    <div class="card">
+      <h3>عن المؤسس</h3>
+      <p >محمد اليوسفي، مؤسس الموقع، يسعى لتقديم محتوى وأدوات مفيدة لجميع المستخدمين بالعربية.</p>
+    </div>
+    <div class="card">
+      <h3>أهداف الموقع</h3>
+      <p >توفير أفضل الأدوات، تحسين تجربة المستخدم، وتقديم محتوى مميز وبسيط.</p>
+    </div>
+  </section>
+</main>
+ <!-- قسم معلومات التواصل -->
+  <section class="contact-info">
+    <h2>معلومات التواصل</h2>
+    <div class="info">
+      <!-- ضع هنا بريدك -->
+      <strong>📧 البريد الإلكتروني:</strong> amalywsfy304@gmail.com
+
+
+
+    </div>
+  </section>
+  <!-- نهاية قسم معلومات التواصل -->
+
+</main>
+
+<footer>
+  &copy; 2025 موقع أدوات - جميع الحقوق محفوظة
+</footer>
+
+<script>
+  // إخفاء شاشة التحميل بعد تحميل الصفحة
+  window.addEventListener('load', () => {
+    const loadingScreen = document.getElementById('loading');
+    loadingScreen.style.opacity = '0';
+    setTimeout(() => {
+      loadingScreen.style.display = 'none';
+    }, 600);
+  });
+
+  // إضافة خاصية فتح/غلق محتوى الأقسام عند النقر على العنوان
+  document.querySelectorAll('h2.toggle').forEach(header => {
+    header.style.cursor = 'pointer';
+    header.addEventListener('click', () => {
+      const content = header.nextElementSibling;
+      if (!content) return;
+      if (content.style.maxHeight) {
+        content.style.maxHeight = null;
+        content.style.opacity = 0;
+        content.style.paddingTop = '0';
+      } else {
+        content.style.maxHeight = content.scrollHeight + "px";
+        content.style.opacity = 1;
+        content.style.paddingTop = '1em';
+      }
+    });
+
+    // إخفاء المحتوى عند التحميل
+    const content = header.nextElementSibling;
+    if (content) {
+      content.style.maxHeight = null;
+      content.style.opacity = 0;
+      content.style.overflow = 'hidden';
+      content.style.transition = 'max-height 0.4s ease, opacity 0.4s ease, padding-top 0.4s ease';
+      content.style.paddingTop = '0';
+    }
+  });
+</script>
+
+</body>
+</html>

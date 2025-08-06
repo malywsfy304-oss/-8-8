@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <title>جدول الاختبارات - نظام الدراسة</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="إدارة مواعيد الاختبارات وجدولها للطلاب السعوديين" />
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Cairo', sans-serif;
+      margin: 0;
+      background: #f9f9f9;
+      color: #222;
+    }
+
+    header {
+      background-color: #007BFF;
+      padding: 1rem;
+    }
+
+    nav {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    nav a {
+      color: #fff;
+      text-decoration: none;
+      font-weight: bold;
+      padding: 0.5rem 1rem;
+      border-radius: 5px;
+    }
+
+    nav a.active,
+    nav a:hover {
+      background-color: #0056b3;
+    }
+
+    main {
+      padding: 2rem;
+      text-align: center;
+    }
+
+    h1, h2 {
+      color: #333;
+      margin-bottom: 1rem;
+    }
+
+    form {
+      background: #fff;
+      padding: 1.5rem;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      max-width: 500px;
+      margin: 0 auto 2rem auto;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 0.5rem;
+      text-align: right;
+      font-weight: bold;
+    }
+
+    input {
+      width: 100%;
+      padding: 0.7rem;
+      margin-bottom: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 1rem;
+    }
+
+    button {
+      background-color: #28a745;
+      color: white;
+      border: none;
+      padding: 0.7rem 1.5rem;
+      font-size: 1rem;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #218838;
+    }
+
+    table {
+      border-collapse: collapse;
+      margin: auto;
+      background: white;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    }
+
+    th, td {
+      padding: 12px 20px;
+      border-bottom: 1px solid #eee;
+    }
+
+    th {
+      background-color: #f1f1f1;
+      font-weight: bold;
+    }
+
+    .deleteBtn {
+      background-color: #dc3545;
+      color: white;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .deleteBtn:hover {
+      background-color: #c82333;
+    }
+
+    footer {
+      margin-top: 3rem;
+      padding: 1rem;
+      background-color: #f1f1f1;
+      text-align: center;
+      font-size: 0.9rem;
+    }
+
+    footer a {
+      display: block;
+      color: #007BFF;
+      margin-bottom: 0.5rem;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+<header>
+  <nav>
+    <a href="خدمة مدرستي.html" class="active">الرئيسية</a>
+    <a href="الخطة.html" class="active">الخطة الدراسية</a>
+    <a href="tips.html" class="active" > مصادر معلوماتية مفيدة</a>
+     <a href="الاقسام.html"  class="active">العودة الى الأقسام</a>
+  </nav>
+</header>
+
+<main>
+  <h1>جدول الاختبارات</h1>
+  <section id="userInfo"></section>
+
+  <section id="examFormSection">
+    <h2>إضافة اختبار جديد</h2>
+    <form id="examForm">
+      <label for="examSubject">اسم المادة:</label>
+      <input type="text" id="examSubject" required placeholder="مثال: الرياضيات" />
+
+      <label for="examDate">تاريخ الاختبار:</label>
+      <input type="date" id="examDate" required />
+
+      <button type="submit">إضافة</button>
+    </form>
+  </section>
+
+  <section id="examsTableSection">
+    <h2>الاختبارات القادمة</h2>
+    <table id="examsTable">
+      <thead>
+        <tr>
+          <th>المادة</th>
+          <th>التاريخ</th>
+          <th>الإجراء</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- سيتم تعبئتها ديناميكياً -->
+      </tbody>
+    </table>
+  </section>
+</main>
+
+<footer>
+  <a href="خدمة مدرستي.html">عودة إلى الرئيسية</a>
+  <p>© 2025 موقع أدوات - تصميم وتطوير محمد اليوسفي</p>
+</footer>
+
+<script>
+  const userData = JSON.parse(localStorage.getItem('studentData'));
+  const userInfo = document.getElementById('userInfo');
+  const examForm = document.getElementById('examForm');
+  const examsTableBody = document.querySelector('#examsTable tbody');
+
+  if (!userData) {
+    alert('يرجى تسجيل الدخول أولاً.');
+    window.location.href = 'login.html';
+  }
+
+  userInfo.innerHTML = `<p>مرحبًا <strong>${userData.name}</strong>! الصف: <strong>${userData.grade}</strong> - المدرسة: <strong>${userData.school}</strong></p>`;
+
+  let exams = JSON.parse(localStorage.getItem('examsData')) || [];
+
+  function renderExams() {
+    examsTableBody.innerHTML = '';
+    if (exams.length === 0) {
+      examsTableBody.innerHTML = '<tr><td colspan="3" style="text-align:center;">لا توجد اختبارات مضافة.</td></tr>';
+      return;
+    }
+    exams.sort((a, b) => new Date(a.date) - new Date(b.date));
+    exams.forEach((exam, idx) => {
+      const tr = document.createElement('tr');
+      const examDate = new Date(exam.date);
+      const dateFormatted = examDate.toLocaleDateString('ar-SA', {day:'2-digit', month:'long', year:'numeric'});
+      tr.innerHTML = `
+        <td>${exam.subject}</td>
+        <td>${dateFormatted}</td>
+        <td><button class="deleteBtn" data-index="${idx}">حذف</button></td>
+      `;
+      examsTableBody.appendChild(tr);
+    });
+
+    document.querySelectorAll('.deleteBtn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const index = btn.getAttribute('data-index');
+        exams.splice(index, 1);
+        saveExams();
+        renderExams();
+      });
+    });
+  }
+
+  function saveExams() {
+    localStorage.setItem('examsData', JSON.stringify(exams));
+  }
+
+  examForm.addEventListener('submit', e => {
+    e.preventDefault();
+    const subject = document.getElementById('examSubject').value.trim();
+    const date = document.getElementById('examDate').value;
+
+    if (!subject || !date) {
+      alert('يرجى تعبئة جميع الحقول.');
+      return;
+    }
+
+    exams.push({ subject, date });
+    saveExams();
+    renderExams();
+    examForm.reset();
+  });
+
+  renderExams();
+</script>
+</body>
+</html>

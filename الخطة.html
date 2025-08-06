@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>نظام الجدول الدراسي السعودي الذكي</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cairo&display=swap');
+  
+  body {
+    font-family: 'Cairo', sans-serif;
+    background: linear-gradient(135deg, #4a90e2 0%, #50e3c2 100%);
+    margin: 0; padding: 20px;
+    min-height: 100vh;
+    color: #2c3e50;
+  }
+  h1, h2 {
+    text-align: center;
+    color: #bd2121;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+    margin-bottom: 15px;
+  }
+  .container {
+    max-width: 900px;
+    background: #fff;
+    margin: 0 auto 40px;
+    padding: 25px 30px;
+    border-radius: 20px;
+    box-shadow: 0 12px 40px rgba(0,0,0,0.2);
+  }
+  label {
+    font-weight: 700;
+    margin-top: 15px;
+    display: block;
+    font-size: 1.1rem;
+    color: #34495e;
+  }
+  input, select {
+    width: 100%;
+    padding: 12px 15px;
+    margin-top: 7px;
+    font-size: 1.1rem;
+    border-radius: 12px;
+    border: 2px solid #50e3c2;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease;
+  }
+  input:focus, select:focus {
+    border-color: #4a90e2;
+    outline: none;
+  }
+  button {
+    margin-top: 25px;
+    background: #4a90e2;
+    color: white;
+    border: none;
+    padding: 15px;
+    border-radius: 18px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    font-weight: 900;
+    width: 100%;
+    box-shadow: 0 5px 15px rgba(74,144,226,0.6);
+    transition: background-color 0.3s ease;
+  }
+  button:hover {
+    background: #3b74c6;
+  }
+  .hidden {
+    display: none;
+  }
+  /* جدول المواد */
+  .schedule-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 15px;
+    margin-top: 30px;
+  }
+  .day-column {
+    background: #ecf0f1;
+    border-radius: 15px;
+    padding: 15px;
+    box-shadow: inset 0 0 8px #bdc3c7;
+    display: flex;
+    flex-direction: column;
+    min-height: 300px;
+  }
+  .day-column h4 {
+    text-align: center;
+    margin-bottom: 12px;
+    color: #34495e;
+    font-weight: 800;
+  }
+  .subject-item {
+    background: #50e3c2;
+    color: white;
+    margin-bottom: 10px;
+    border-radius: 12px;
+    padding: 10px;
+    font-weight: 700;
+    font-size: 1rem;
+    box-shadow: 0 3px 7px rgba(80,227,194,0.7);
+    position: relative;
+  }
+  .subject-item span.time {
+    display: block;
+    font-size: 0.85rem;
+    opacity: 0.85;
+    margin-top: 4px;
+  }
+  .subject-item button.delete-btn {
+    position: absolute;
+    top: 6px;
+    left: 8px;
+    background: #e74c3c;
+    border: none;
+    border-radius: 50%;
+    color: white;
+    font-weight: 700;
+    cursor: pointer;
+    width: 20px;
+    height: 20px;
+    font-size: 14px;
+    line-height: 18px;
+  }
+  .add-subject-form {
+    margin-top: auto;
+  }
+  .add-subject-form input[type="text"],
+  .add-subject-form input[type="time"] {
+    width: calc(50% - 8px);
+    padding: 7px 10px;
+    border-radius: 10px;
+    border: 1.5px solid #50e3c2;
+    font-size: 1rem;
+    margin-bottom: 8px;
+  }
+  .add-subject-form input[type="time"] {
+    margin-left: 10px;
+  }
+  .add-subject-form button {
+    width: 100%;
+    margin-top: 0;
+  }
+  /* شنطة اليوم */
+  #bagToday {
+    background: #d1f0e7;
+    border-radius: 15px;
+    padding: 20px;
+    font-weight: 700;
+    color: #27ae60;
+    margin-top: 30px;
+    box-shadow: 0 5px 15px rgba(39,174,96,0.3);
+  }
+  /* العودة للأقسام */
+  #backLink {
+    display: block;
+    margin: 20px auto 10px;
+    text-align: center;
+    font-weight: 700;
+    color: #4a90e2;
+    text-decoration: none;
+    font-size: 1.2rem;
+    transition: color 0.3s ease;
+  }
+  #backLink:hover {
+    color: #357ABD;
+  }
+  /* الفوتر */
+  footer {
+    text-align: center;
+    font-style: italic;
+    color: #555;
+    font-size: 14px;
+    margin-top: 40px;
+  }
+  /* Responsive */
+  @media (max-width: 720px) {
+    .schedule-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    .add-subject-form input[type="text"],
+    .add-subject-form input[type="time"] {
+      width: 100%;
+      margin-left: 0;
+    }
+  }
+</style>
+</head>
+<body>
+
+<div class="container" id="userSection">
+  <h1>نظام الجدول الدراسي السعودي الذكي</h1>
+  <h2>سجل بياناتك للبدء</h2>
+  
+  <label for="userName">اسمك الكامل:</label>
+  <input type="text" id="userName" placeholder="اكتب اسمك" />
+
+  <label for="userGrade">اختر الصف الدراسي:</label>
+  <select id="userGrade">
+    <option value="" disabled selected>اختر صفك</option>
+    <option value="الصف الأول الابتدائي">الصف الأول الابتدائي</option>
+    <option value="الصف الثاني الابتدائي">الصف الثاني الابتدائي</option>
+    <option value="الصف الثالث الابتدائي">الصف الثالث الابتدائي</option>
+    <option value="الصف الرابع الابتدائي">الصف الرابع الابتدائي</option>
+    <option value="الصف الخامس الابتدائي">الصف الخامس الابتدائي</option>
+    <option value="الصف السادس الابتدائي">الصف السادس الابتدائي</option>
+    <option value="المرحلة المتوسطة">المرحلة المتوسطة</option>
+    <option value="المرحلة الثانوية">المرحلة الثانوية</option>
+  </select>
+
+  <label for="userSchool">أين تدرس؟ (اسم المدرسة):</label>
+  <input type="text" id="userSchool" placeholder="اكتب اسم مدرستك" />
+
+  <button id="saveUserBtn">حفظ البيانات والبدء</button>
+</div>
+
+<div class="container hidden" id="scheduleSection">
+  <h2>جدولك الدراسي للأسبوع (الأحد - الخميس)</h2>
+
+  <div class="schedule-grid" id="scheduleGrid">
+    <!-- أعمدة الأيام هنا ديناميك -->
+  </div>
+
+  <button id="showBagBtn">احسب شنطة اليوم</button>
+
+  <div id="bagToday" class="hidden"></div>
+
+  <a href="خدمة مدرستي.html" id="backLink">⬅ العودة إلى الرئيسية</a>
+ <a href="الاقسام.html" id="backLink" >  ⬅العودة الى الاقسام</a>
+</div>
+
+<footer>
+  موقع أدوات — من تنسيق وتصميم محمد اليوسفي
+</footer>
+
+<script>
+  const userSection = document.getElementById('userSection');
+  const scheduleSection = document.getElementById('scheduleSection');
+  const saveUserBtn = document.getElementById('saveUserBtn');
+  const scheduleGrid = document.getElementById('scheduleGrid');
+  const bagToday = document.getElementById('bagToday');
+  const showBagBtn = document.getElementById('showBagBtn');
+  const backLink = document.getElementById('backLink');
+
+  const days = ['الأحد', 'الإثنين', 'الثلاثاء', 'الأربعاء', 'الخميس'];
+
+  let userData = null;
+  let scheduleData = {};
+
+  // تحميل البيانات من localStorage إذا موجودة
+  function loadUserData() {
+    const data = localStorage.getItem('saudiScheduleUser');
+    if (data) {
+      userData = JSON.parse(data);
+      return true;
+    }
+    return false;
+  }
+  function loadScheduleData() {
+    const data = localStorage.getItem('saudiScheduleData');
+    if (data) {
+      scheduleData = JSON.parse(data);
+    } else {
+      scheduleData = {};
+      days.forEach(day => scheduleData[day] = []);
+    }
+  }
+
+  function saveUserData() {
+    localStorage.setItem('saudiScheduleUser', JSON.stringify(userData));
+  }
+  function saveScheduleData() {
+    localStorage.setItem('saudiScheduleData', JSON.stringify(scheduleData));
+  }
+
+  // إنشاء عمود اليوم في الجدول
+  function createDayColumn(day) {
+    const col = document.createElement('div');
+    col.classList.add('day-column');
+    col.setAttribute('data-day', day);
+
+    const title = document.createElement('h4');
+    title.textContent = day;
+    col.appendChild(title);
+
+    // عرض المواد الحالية
+    const subjectsContainer = document.createElement('div');
+    subjectsContainer.classList.add('subjects-container');
+
+    // المواد الحالية
+    function refreshSubjects() {
+      subjectsContainer.innerHTML = '';
+      const subjects = scheduleData[day];
+      subjects.forEach((subj, idx) => {
+        const subjDiv = document.createElement('div');
+        subjDiv.classList.add('subject-item');
+        subjDiv.innerHTML = `
+          ${subj.name} <span class="time">${subj.time}</span>
+          <button class="delete-btn" title="حذف المادة" data-idx="${idx}">&times;</button>
+        `;
+        subjectsContainer.appendChild(subjDiv);
+      });
+
+      // ربط حدث حذف المادة
+      subjectsContainer.querySelectorAll('.delete-btn').forEach(btn => {
+        btn.onclick = () => {
+          const index = parseInt(btn.getAttribute('data-idx'));
+          scheduleData[day].splice(index, 1);
+          saveScheduleData();
+          refreshSubjects();
+        };
+      });
+    }
+    refreshSubjects();
+    col.appendChild(subjectsContainer);
+
+    // نموذج إضافة مادة جديدة
+    const form = document.createElement('form');
+    form.classList.add('add-subject-form');
+    form.innerHTML = `
+      <input type="text" placeholder="اسم المادة" required />
+      <input type="time" required />
+      <button type="submit">إضافة مادة</button>
+    `;
+    form.onsubmit = (e) => {
+      e.preventDefault();
+      const nameInput = form.querySelector('input[type="text"]');
+      const timeInput = form.querySelector('input[type="time"]');
+      const name = nameInput.value.trim();
+      const time = timeInput.value;
+      if (!name || !time) return;
+      scheduleData[day].push({name, time});
+      saveScheduleData();
+      nameInput.value = '';
+      timeInput.value = '';
+      refreshSubjects();
+    };
+    col.appendChild(form);
+
+    return col;
+  }
+
+  // بناء الجدول كامل
+  function buildScheduleGrid() {
+    scheduleGrid.innerHTML = '';
+    days.forEach(day => {
+      scheduleGrid.appendChild(createDayColumn(day));
+    });
+  }
+
+  // حساب شنطة اليوم
+  function showBag() {
+    const todayIndex = new Date().getDay(); // الأحد=0 في النظام العالمي لكن في JS الأحد=0 الأحد فعلياً هو 0؟
+    // في JavaScript الأحد = 0, الإثنين=1 ... الجمعة=5 السبت=6
+    // نحن نريد الأحد=0 .. الخميس=4 فقط، باقي الأيام إجازة
+    if (todayIndex === 5 || todayIndex === 6) {
+      bagToday.classList.remove('hidden');
+      bagToday.textContent = 'اليوم عطلة رسمية (الجمعة أو السبت). لا يوجد جدول مذاكرة.';
+      return;
+    }
+    // الأحد=0, الإثنين=1, الثلاثاء=2, الأربعاء=3, الخميس=4
+    // للتوافق مع أيامنا:
+    const dayMap = {
+      0: 'الأحد',
+      1: 'الإثنين',
+      2: 'الثلاثاء',
+      3: 'الأربعاء',
+      4: 'الخميس',
+    };
+    const dayName = dayMap[todayIndex];
+    const subjects = scheduleData[dayName];
+    if (!subjects || subjects.length === 0) {
+      bagToday.classList.remove('hidden');
+      bagToday.textContent = `لا توجد مواد مسجلة ليوم ${dayName}.`;
+      return;
+    }
+    let text = `شنطة مواد يوم ${dayName}:\n\n`;
+    subjects.forEach((subj, i) => {
+      text += `${i+1}. ${subj.name} - الساعة: ${subj.time}\n`;
+    });
+    bagToday.classList.remove('hidden');
+    bagToday.textContent = text;
+  }
+
+  // تحميل البيانات وعرض الواجهة المناسبة
+  function init() {
+    if (loadUserData()) {
+      // عرض القسم الدراسي
+      userSection.classList.add('hidden');
+      scheduleSection.classList.remove('hidden');
+      loadScheduleData();
+      buildScheduleGrid();
+    } else {
+      userSection.classList.remove('hidden');
+      scheduleSection.classList.add('hidden');
+    }
+  }
+
+  saveUserBtn.onclick = () => {
+    const name = document.getElementById('userName').value.trim();
+    const grade = document.getElementById('userGrade').value;
+    const school = document.getElementById('userSchool').value.trim();
+
+    if (!name) { alert('يرجى إدخال اسمك'); return; }
+    if (!grade) { alert('يرجى اختيار الصف الدراسي'); return; }
+    if (!school) { alert('يرجى إدخال اسم مدرستك'); return; }
+
+    userData = {name, grade, school};
+    saveUserData();
+
+    userSection.classList.add('hidden');
+    scheduleSection.classList.remove('hidden');
+    loadScheduleData();
+    buildScheduleGrid();
+  };
+
+  showBagBtn.onclick = showBag;
+
+  init();
+</script>
+
+</body>
+</html>

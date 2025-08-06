@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>حاسبة العمر - محمد اليوسفي</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f0f0f0;
+      padding: 20px;
+      text-align: center;
+      direction: rtl;
+    }
+    h1 {
+      color: #333;
+    }
+    form {
+      background: white;
+      padding: 20px;
+      border-radius: 15px;
+      box-shadow: 0 0 10px #ccc;
+      max-width: 400px;
+      margin: auto;
+    }
+    label {
+      display: block;
+      margin-top: 10px;
+    }
+    input {
+      width: 90%;
+      padding: 10px;
+      margin-top: 5px;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+    }
+    button {
+      margin-top: 15px;
+      padding: 10px 20px;
+      background: #007bff;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+    .result {
+      margin-top: 20px;
+      font-size: 18px;
+      color: green;
+    }
+    footer {
+      margin-top: 40px;
+      color: #555;
+    }
+    .back-link {
+    display: inline-block;
+    margin: 20px 0 0 0;
+    font-weight: 700;
+    color: #1976d2;
+    text-decoration: none;
+    font-size: 14px;
+    transition: color 0.3s ease;
+  }
+    /* متجاوب */
+  @media (max-width: 720px) {
+    .cards {
+      flex-direction: column;
+      gap: 1rem;
+    }
+    section {
+      padding: 1.5rem;
+    }
+    nav {
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+  }
+  </style>
+</head>
+<body>
+  <h1>حاسبة العمر</h1>
+
+  <form id="ageForm">
+    <label>الاسم الكامل:
+      <input type="text" id="name" required>
+    </label>
+    <label>اليوم:
+      <input type="number" id="day" min="1" max="31" required>
+    </label>
+    <label>الشهر:
+      <input type="number" id="month" min="1" max="12" required>
+    </label>
+    <label>السنة:
+      <input type="number" id="year" min="1900" max="2100" required>
+    </label>
+    <button type="submit">احسب العمر</button>
+  </form>
+
+  <div class="result" id="result"></div>
+  <h4>جرب ايضا</h4>
+<a href="خدمةحاسبة المعدل التراكمي لتعليم المملكة.html"  class="back-link"> ↩️نظام ادارة الفصل الالكتروني</a>
+  <p><strong>منصة ادوات </strong>    تخدمك من القلب</p>
+  <a href="الرائج.html" class="back-link" >↩️ العودة إلى الرائج</a>
+   
+
+  <footer>المبرمج: محمد اليوسفي</footer>
+
+  <script>
+    document.getElementById("ageForm").addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      const name = document.getElementById("name").value;
+      const day = parseInt(document.getElementById("day").value);
+      const month = parseInt(document.getElementById("month").value) - 1; // JS months: 0-11
+      const year = parseInt(document.getElementById("year").value);
+
+      const birthDate = new Date(year, month, day);
+      const today = new Date();
+
+      if (birthDate > today) {
+        alert("تاريخ الميلاد لا يمكن أن يكون في المستقبل");
+        return;
+      }
+
+      // حساب العمر بالميلادي
+      let ageYears = today.getFullYear() - birthDate.getFullYear();
+      let ageMonths = today.getMonth() - birthDate.getMonth();
+      let ageDays = today.getDate() - birthDate.getDate();
+
+      if (ageDays < 0) {
+        ageMonths--;
+        ageDays += 30;
+      }
+      if (ageMonths < 0) {
+        ageYears--;
+        ageMonths += 12;
+      }
+
+      // حساب التاريخ الهجري
+      const hijriDate = new Intl.DateTimeFormat('ar-SA-u-ca-islamic', {
+        day: 'numeric',
+        month: 'long',
+        year: 'numeric'
+      }).format(birthDate);
+
+      document.getElementById("result").innerHTML =
+        `<strong>الاسم:</strong> ${name}<br>
+        <strong>العمر:</strong> ${ageYears} سنة و ${ageMonths} شهر و ${ageDays} يوم<br>
+        <strong>تاريخ  الهجري:</strong> ${hijriDate}`;
+    });
+  </script>
+
+</body>
+</html>
