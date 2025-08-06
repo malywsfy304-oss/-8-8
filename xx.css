@@ -1,8 +1,7 @@
-/* الخط الافتراضي وتعديل الحواف */
+/* إعدادات عامة */
 * {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   box-sizing: border-box;
-
 }
 
 /* خلفية الصفحة */
@@ -15,39 +14,73 @@ body {
   place-items: center;
 }
 
-/* الحاوية الأساسية للحاسبة */
+/* الحاسبة */
 .calculator {
-  background-color: rgba(255, 255, 255, 0.85);
+  background-color: rgba(255, 255, 255, 0.9);
   padding: 25px 35px;
   border-radius: 15px;
   box-shadow: 0 8px 16px rgba(0,0,0,0.3);
-  text-align: center;  
-
+  text-align: center;
 }
 
-
+/* الحقول */
 input, select, button {
   width: 100%;
   margin: 10px 0;
   padding: 12px;
   font-size: 16px;
-  border: none;
+  background-color: #ffffff;
+  color: #1a1a1a;
+  border: 2px solid #319b84;
   border-radius: 8px;
-  transition: background-color 0.3s ease, transform 0.2s ease; 
-   color: #f39c12 ;
+  transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
+/* إزالة تأثير التركيز */
+input:focus, select:focus, button:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+/* تأثير عند المرور */
 input:hover, select:hover, button:hover {
-  background-color: rgb(82, 77, 71);
+  background-color: #e0f5ee;
   cursor: pointer;
   transform: scale(1.03);
 }
 
-
+/* النتيجة */
 #result {
   margin-top: 15px;
   font-weight: bold;
   font-size: 18px;
-  color: #319b84;
+  background-color: #dff6f0;
+  color: #0c4f3a;
+  padding: 12px;
+  border-radius: 10px;
+  box-shadow: inset 0 0 5px #319b84;
 }
+
+/* الأنواع المختلفة من القيم */
+.currency-value {
+  color: #3498db;  /* العملة الأساسية */
+  font-weight: bold;
+}
+
+.converted-value {
+  color: #2ecc71;  /* العملة المحوّلة */
+  font-weight: bold;
+}
+
+.difference {
+  color: #f39c12;  /* الفرق */
+  font-weight: bold;
+}
+
+.error-message {
+  color: #e74c3c;  /* الخطأ */
+  font-weight: bold;
+}
+
+
 
