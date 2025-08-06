@@ -3,9 +3,10 @@ let ge = document.getElementById('tom');
 
 
 dr.onkeyup = function(){
-tom.value = bom.value * 5;
+tom.value = bom.value * ;
 }
 ge.onkeyup = function(){
- bom.value = tom.value / 5;
+ bom.value = tom.value / 428;
 }
+
 
