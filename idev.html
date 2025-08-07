@@ -2,39 +2,161 @@
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>محول العملات اليمنية - صنعاء وعدن | حاسبة العمر</title>
-  <meta name="description" content="حوّل بين الريال السعودي والريال اليمني بأسعار صرف صنعاء أو عدن، مع حاسبة عمر دقيقة. تصميم محمد اليوسفي.">
+  <title>محول العملات اليمنية - صنعاء وعدن</title>
+  <meta name="description" content="استخدم محول العملات لتحويل الريال السعودي أو الدولار الأمريكي إلى الريال اليمني حسب العاصمة صنعاء أو عدن مع تحديد البيع أو الشراء بدقة.">
+  <meta name="keywords" content="محول العملات, تحويل عملات, سعر الصرف اليمني, عدن, صنعاء, الريال اليمني, الدولار, الريال السعودي, بيع, شراء, أدوات محمد اليوسفي">
+  <meta name="author" content="محمد اليوسفي">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta property="og:title" content="محول العملات اليمنية - صنعاء وعدن">
+  <meta property="og:description" content="تحويل العملات حسب سعر السوق في صنعاء وعدن مع تحديد البيع والشراء.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://example.com"> <!-- عدل الرابط -->
+  <meta property="og:image" content="https://example.com/logo.png"> <!-- عدل الرابط -->
+
   <style>
     body {
-      font-family: Arial;
-      background: #f5f5f5;
-      padding: 20px;
-      text-align: center;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f9f9f9;
+      margin: 0;
+      padding: 0;
+      line-height: 1.6;
     }
-    .box {
-      background: white;
-      padding: 20px;
+    .container {
       max-width: 500px;
-      margin: auto;
-      border-radius: 15px;
-      box-shadow: 0 0 10px #ccc;
-      margin-bottom: 30px;
+      margin: 40px auto;
+      background: #fff;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #333;
     }
     select, input, button {
       width: 100%;
-      padding: 10px;
+      padding: 12px;
       margin: 8px 0;
       font-size: 16px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+    button {
+      background: #28a745;
+      color: white;
+      cursor: pointer;
+      border: none;
+    }
+    button:hover {
+      background: #218838;
     }
     .result {
-      margin-top: 15px;
       font-size: 18px;
-      color: green;
+      margin-top: 20px;
+      color: #005f00;
+      text-align: center;
     }
-    a {
-      text-decoration: none;
+    .note {
+      margin-top: 25px;
+      background: #e9ecef;
+      padding: 10px;
+      border-radius: 8px;
+      text-align: center;
+    }
+    .note a {
       color: #007bff;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    footer {
+      margin-top: 50px;
+      background: #343a40;
+      color: white;
+      text-align: center;
+      padding: 20px;
+      font-size: 14px;
+      border-top: 5px solid #28a745;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1>💱 محول العملات اليمنية</h1>
+
+    <input type="number" id="amount" placeholder="أدخل المبلغ" required>
+
+    <select id="from">
+      <option value="USD">دولار أمريكي</option>
+      <option value="SAR">ريال سعودي</option>
+    </select>
+
+    <select id="operation">
+      <option value="buy">شراء</option>
+      <option value="sell">بيع</option>
+    </select>
+
+    <select id="city">
+      <option value="sanaa">العاصمة صنعاء</option>
+      <option value="aden">العاصمة المؤقتة عدن</option>
+    </select>
+
+    <button onclick="convert()">تحويل الآن</button>
+
+    <div class="result" id="result">النتيجة ستظهر هنا</div>
+
+    <div class="note">
+      جرب أيضًا 👉 <a href="رابط-حاسبة-العمر.html" target="_blank">حاسبة العمر - اعرف عمرك الآن</a>
+    </div>
+  </div>
+
+  <footer>
+    🌐 تصميم محمد اليوسفي © 2025
+  </footer>
+
+  <script>
+    async function convert() {
+      const amount = parseFloat(document.getElementById("amount").value);
+      const from = document.getElementById("from").value;
+      const operation = document.getElementById("operation").value;
+      const city = document.getElementById("city").value;
+      const resultBox = document.getElementById("result");
+
+      if (isNaN(amount) || amount <= 0) {
+        resultBox.textContent = "الرجاء إدخال مبلغ صالح.";
+        return;
+      }
+
+      // لا تظهر الـ API Key للمستخدم
+      const apiKey = '39af8bc8d12700318da60b06c4';
+      const apiUrl = `https://v6.exchangerate-api.com/v6/${apiKey}/latest/${from}`;
+
+      try {
+        const response = await fetch(apiUrl);
+        const data = await response.json();
+
+        let rate = 0;
+
+        if (city === 'sanaa') {
+          // أسعار تقريبية — يفضل ربطها من جهة رسمية
+          rate = from === 'USD' ? (operation === 'buy' ? 530 : 540) :
+                 from === 'SAR' ? (operation === 'buy' ? 140 : 143) : 0;
+        } else if (city === 'aden') {
+          rate = from === 'USD' ? (operation === 'buy' ? 1480 : 1500) :
+                 from === 'SAR' ? (operation === 'buy' ? 390 : 400) : 0;
+        }
+
+        const result = (amount * rate).toFixed(2);
+        resultBox.textContent = `المبلغ المحوّل: ${result} ريال يمني`;
+      } catch (error) {
+        resultBox.textContent = "حدث خطأ أثناء التحويل. تأكد من الاتصال بالإنترنت.";
+      }
+    }
+  </script>
+
+</body>
+</html>      color: #007bff;
     }
     footer {
       margin-top: 40px;
@@ -294,6 +416,7 @@
 
 </body>
 </html>
+
 
 
 
