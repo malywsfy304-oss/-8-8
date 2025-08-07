@@ -1,66 +1,135 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <title>محول العملات اليمنية - صنعاء وعدن</title>
-  <meta name="description" content="استخدم محول العملات لتحويل الريال السعودي أو الدولار الأمريكي إلى الريال اليمني حسب العاصمة صنعاء أو عدن مع تحديد البيع أو الشراء بدقة.">
-  <meta name="keywords" content="محول العملات, تحويل عملات, سعر الصرف اليمني, عدن, صنعاء, الريال اليمني, الدولار, الريال السعودي, بيع, شراء, أدوات محمد اليوسفي">
-  <meta name="author" content="محمد اليوسفي">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta property="og:title" content="محول العملات اليمنية - صنعاء وعدن">
-  <meta property="og:description" content="تحويل العملات حسب سعر السوق في صنعاء وعدن مع تحديد البيع والشراء.">
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://example.com"> <!-- عدل الرابط -->
-  <meta property="og:image" content="https://example.com/logo.png"> <!-- عدل الرابط -->
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>تحويل العملات - منصة أدوات</title>
 
+  <!-- SEO Meta Tags -->
+  <meta name="description" content="أداة لتحويل العملات بأسعار صرف دقيقة حسب العاصمة (صنعاء أو عدن) مع خيار البيع أو الشراء. جرب أيضًا حاسبة العمر." />
+  <meta name="keywords" content="تحويل العملات, سعر الصرف اليمن, صنعاء, عدن, بيع, شراء, أدوات, حاسبة العمر" />
+  <meta name="author" content="محمد اليوسفي" />
+  <link rel="canonical" href="https://malywsfy304-oss.github.io/-8-8/" />
+  
   <style>
     body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: #f9f9f9;
+      font-family: 'Arial', sans-serif;
       margin: 0;
       padding: 0;
-      line-height: 1.6;
+      background-color: #f5f5f5;
+      color: #222;
     }
-    .container {
-      max-width: 500px;
-      margin: 40px auto;
-      background: #fff;
-      padding: 20px;
-      border-radius: 12px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    }
-    h1 {
+
+    header {
+      background-color: #0077b6;
+      padding: 1rem;
+      color: white;
       text-align: center;
-      margin-bottom: 20px;
-      color: #333;
     }
-    select, input, button {
+
+    main {
+      padding: 2rem;
+      max-width: 600px;
+      margin: auto;
+      background-color: white;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      border-radius: 10px;
+      margin-top: 2rem;
+    }
+
+    label {
+      font-weight: bold;
+      margin-top: 1rem;
+      display: block;
+    }
+
+    select, button {
       width: 100%;
-      padding: 12px;
-      margin: 8px 0;
-      font-size: 16px;
-      border-radius: 6px;
+      padding: 10px;
+      margin-top: 0.5rem;
+      border-radius: 5px;
       border: 1px solid #ccc;
     }
-    button {
-      background: #28a745;
-      color: white;
-      cursor: pointer;
-      border: none;
-    }
-    button:hover {
-      background: #218838;
-    }
-    .result {
-      font-size: 18px;
-      margin-top: 20px;
-      color: #005f00;
+
+    .link-btn {
+      display: block;
       text-align: center;
+      background-color: #00b4d8;
+      color: white;
+      text-decoration: none;
+      padding: 12px;
+      margin-top: 2rem;
+      border-radius: 8px;
+      transition: background-color 0.3s ease;
     }
-    .note {
-      margin-top: 25px;
-      background: #e9ecef;
-      padding: 10px;
+
+    .link-btn:hover {
+      background-color: #0096c7;
+    }
+
+    footer {
+      margin-top: 3rem;
+      background-color: #222;
+      color: white;
+      text-align: center;
+      padding: 1rem;
+      font-size: 14px;
+      border-top: 3px solid #00b4d8;
+    }
+
+    footer a {
+      color: #00eaff;
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>أداة تحويل العملات</h1>
+  </header>
+
+  <main>
+    <label for="capital">اختر العاصمة:</label>
+    <select id="capital">
+      <option value="sanaa">صنعاء</option>
+      <option value="aden">عدن (العاصمة المؤقتة)</option>
+    </select>
+
+    <label for="type">نوع العملية:</label>
+    <select id="type">
+      <option value="buy">شراء</option>
+      <option value="sell">بيع</option>
+    </select>
+
+    <a class="link-btn" id="go-to-tool" href="#" target="_blank">اذهب إلى أداة تحويل العملات</a>
+
+    <a class="link-btn" href="رابط_حاسبة_العمر_الخاصة_بك.html">جرب أيضًا: حاسبة العمر - اعرف عمرك الآن</a>
+  </main>
+
+  <footer>
+    <p>جميع الحقوق محفوظة © <span id="year"></span> | تصميم <strong>محمد اليوسفي</strong> - <a href="https://malywsfy304-oss.github.io/-8-8/">منصة أدوات</a></p>
+  </footer>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    document.getElementById('go-to-tool').addEventListener('click', function(e) {
+      e.preventDefault();
+      const capital = document.getElementById('capital').value;
+      const type = document.getElementById('type').value;
+      
+      // غيّر هذا الرابط لرابط صفحتك الحقيقية الخاصة بحاسبة العملات
+      const baseURL = "https://malywsfy304-oss.github.io/-8-8/محول-العملات.html";
+      
+      // بناء الرابط حسب الاختيار
+      const finalURL = `${baseURL}?capital=${capital}&type=${type}`;
+      window.open(finalURL, "_blank");
+    });
+  </script>
+
+</body>
+</html>      padding: 10px;
       border-radius: 8px;
       text-align: center;
     }
@@ -416,6 +485,7 @@
 
 </body>
 </html>
+
 
 
 
