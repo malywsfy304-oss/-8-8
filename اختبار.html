@@ -2,177 +2,225 @@
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8" />
-  <title>تسجيل دخول - نظام الدراسة السعودي</title>
+  <title>جدول اختباراتي</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="تسجيل دخول الطلاب في نظام الدراسة السعودي لتخصيص جدول اختباراتهم بسهولة." />
-  <meta name="keywords" content="نظام الدراسة السعودي, تسجيل دخول, جدول الاختبارات, الطلاب, السعودية" />
-  <meta name="author" content="محمد اليوسفي" />
-  <link rel="icon" href="favicon.ico" type="image/x-icon" />
   <style>
-    * { margin:0; padding:0; box-sizing:border-box; font-family:"Segoe UI", Tahoma, Geneva, Verdana, sans-serif; }
+    * { box-sizing: border-box; font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif; }
     body {
-      background: linear-gradient(135deg,#1e3c72,#2a5298);
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
+      background: linear-gradient(to bottom, #2a5298, #1e3c72);
       color: #fff;
+      min-height: 100vh;
       padding: 20px;
     }
-    nav {
-      margin: 20px 0;
-      display: flex;
-      gap: 20px;
-    }
-    nav a {
-      text-decoration: none;
-      color: #eee;
-      padding: 10px 18px;
-      border-radius: 8px;
-      font-weight: 600;
-      transition: background-color 0.3s, color 0.3s;
-    }
-    nav a.active, nav a:hover {
-      background-color: #4cc9f0;
-      color: #fff;
-      font-weight: 700;
-      box-shadow: 0 3px 10px rgba(76,201,240,0.6);
-    }
-    .login-container {
-      background: rgba(255 255 255 / 0.1);
-      padding: 30px 40px;
-      border-radius: 15px;
-      box-shadow: 0 6px 20px rgba(0,0,0,0.3);
-      max-width: 420px;
-      width: 100%;
-      text-align: center;
-    }
     h2 {
+      text-align: center;
       margin-bottom: 25px;
-      font-weight: 700;
-      font-size: 2rem;
-      text-shadow: 1px 1px 5px rgba(0,0,0,0.4);
+    }
+    .welcome {
+      background-color: rgba(255,255,255,0.1);
+      padding: 15px;
+      border-radius: 10px;
+      margin-bottom: 30px;
+      text-align: center;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    }
+    .form-container {
+      background-color: rgba(255,255,255,0.08);
+      padding: 20px;
+      border-radius: 12px;
+      max-width: 600px;
+      margin: 0 auto 30px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
     }
     label {
       display: block;
-      text-align: right;
-      margin-bottom: 8px;
+      margin-bottom: 5px;
       font-weight: 600;
-      font-size: 1rem;
     }
-    input[type="text"] {
+    input {
       width: 100%;
-      padding: 10px 12px;
+      padding: 10px;
+      margin-bottom: 15px;
       border-radius: 8px;
       border: none;
-      margin-bottom: 20px;
-      font-size: 1rem;
-    }
-    input[type="text"]:focus {
-      outline: none;
-      box-shadow: 0 0 8px #4cc9f0;
     }
     button {
-      width: 100%;
-      padding: 14px 0;
-      border: none;
-      border-radius: 12px;
+      padding: 12px 18px;
       background-color: #4cc9f0;
-      color: #fff;
-      font-size: 1.2rem;
-      font-weight: 700;
+      border: none;
+      border-radius: 8px;
+      font-weight: bold;
+      color: white;
       cursor: pointer;
-      transition: background-color 0.3s ease;
-      box-shadow: 0 5px 15px rgba(76,201,240,0.6);
+      margin: 5px 0;
     }
     button:hover {
       background-color: #2196f3;
-      box-shadow: 0 7px 20px rgba(33,150,243,0.8);
     }
-    .footer-link {
-      margin-top: 15px;
-      font-size: 0.9rem;
+    .table-container {
+      max-width: 800px;
+      margin: auto;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background-color: rgba(255,255,255,0.1);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    }
+    th, td {
+      padding: 12px;
+      text-align: center;
+      border: 1px solid #ccc;
+    }
+    .edit-btn, .delete-btn {
+      padding: 6px 10px;
+      border: none;
+      border-radius: 6px;
+      color: white;
+      cursor: pointer;
+    }
+    .edit-btn {
+      background-color: #ff9800;
+    }
+    .delete-btn {
+      background-color: #f44336;
+    }
+    .reset-btn {
+      display: block;
+      text-align: center;
+      margin-top: 20px;
       color: #cce7f0;
-    }
-    .footer-link a {
-      color: #a0d8ef;
-      text-decoration: none;
-      font-weight: 600;
-    }
-    .footer-link a:hover {
       text-decoration: underline;
-    }
-    footer {
-      margin-top: 30px;
-      color: #ddd;
-      font-size: 0.85rem;
+      cursor: pointer;
     }
   </style>
-
-  <!-- إعادة التوجيه إذا كان المستخدم مسجلاً -->
-  <script>
-    const existingData = localStorage.getItem('studentData');
-    if (existingData) {
-      window.location.href = 'اختبارر.html';
-    }
-  </script>
 </head>
 <body>
-  <nav>
-    <a href="خدمة مدرستي.html" class="nav-link">الرئيسية</a>
-    <a href="الخطة.html" class="nav-link">الخطة</a>
-    <a href="اختبارر.html" class="nav-link">جدول اختباراتك</a>
-    <a href="الاقسام.html" class="nav-link">العودة الى الأقسام</a>
-  </nav>
 
-  <div class="login-container">
-    <h2>تسجيل الدخول لجدول اختبار</h2>
-    <form id="loginForm">
-      <label for="name">الاسم الكامل:</label>
-      <input type="text" id="name" placeholder="أدخل اسمك الكامل" required />
+  <h2>جدول اختباراتي</h2>
 
-      <label for="grade">الصف الدراسي:</label>
-      <input type="text" id="grade" placeholder="مثال: الثالث المتوسط" required />
-
-      <label for="school">اسم المدرسة:</label>
-      <input type="text" id="school" placeholder="اسم مدرستك" required />
-
-      <button type="submit">دخول</button>
-    </form>
-    <div class="footer-link"></div>
+  <div class="welcome" id="welcomeBox">
+    <!-- سيتم تعبئته تلقائيًا -->
   </div>
 
-  <footer>
-    © 2025 موقع أدوات - تصميم وتطوير محمد اليوسفي
-  </footer>
+  <div class="form-container">
+    <label for="subject">اسم المادة:</label>
+    <input type="text" id="subject" placeholder="مثال: رياضيات" required />
+
+    <label for="day">اليوم:</label>
+    <input type="text" id="day" placeholder="مثال: الأحد" required />
+
+    <label for="time">الساعة:</label>
+    <input type="text" id="time" placeholder="مثال: 9:00 صباحًا" required />
+
+    <button onclick="addOrUpdateExam()">إضافة الاختبار</button>
+  </div>
+
+  <div class="table-container">
+    <table id="examTable">
+      <thead>
+        <tr>
+          <th>المادة</th>
+          <th>اليوم</th>
+          <th>الساعة</th>
+          <th>تعديل</th>
+          <th>حذف</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+
+  <div class="reset-btn" onclick="resetStudentData()">
+    هل كتبت اسمك أو مدرستك خطأ؟ عدّل بياناتك الآن
+  </div>
 
   <script>
-    // تفعيل الرابط الحالي
-    const links = document.querySelectorAll('.nav-link');
-    const currentPage = location.pathname.split('/').pop();
-    links.forEach(link => {
-      if(link.getAttribute('href') === currentPage) {
-        link.classList.add('active');
-      }
-    });
+    let editingIndex = null;
 
-    // حفظ البيانات في LocalStorage وتوجيه المستخدم
-    document.getElementById('loginForm').addEventListener('submit', e => {
-      e.preventDefault();
-      const name = document.getElementById('name').value.trim();
-      const grade = document.getElementById('grade').value.trim();
-      const school = document.getElementById('school').value.trim();
-
-      if (!name || !grade || !school) {
-        alert('يرجى تعبئة جميع الحقول.');
+    function renderWelcome() {
+      const student = JSON.parse(localStorage.getItem('studentData'));
+      if (!student) {
+        window.location.href = 'index.html'; // صفحة تسجيل الدخول
         return;
       }
 
-      const studentData = { name, grade, school };
-      localStorage.setItem('studentData', JSON.stringify(studentData));
-      alert(`مرحبًا ${name}! تم تسجيل الدخول بنجاح.`);
-      window.location.href = 'اختبارر.html';
-    });
+      document.getElementById('welcomeBox').innerHTML = `
+        👋 مرحبًا ${student.name} من الصف ${student.grade} في مدرسة ${student.school}
+      `;
+    }
+
+    function renderExams() {
+      const exams = JSON.parse(localStorage.getItem('exams') || '[]');
+      const tbody = document.querySelector("#examTable tbody");
+      tbody.innerHTML = "";
+
+      exams.forEach((exam, index) => {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+          <td>${exam.subject}</td>
+          <td>${exam.day}</td>
+          <td>${exam.time}</td>
+          <td><button class="edit-btn" onclick="editExam(${index})">تعديل</button></td>
+          <td><button class="delete-btn" onclick="deleteExam(${index})">حذف</button></td>
+        `;
+        tbody.appendChild(row);
+      });
+    }
+
+    function addOrUpdateExam() {
+      const subject = document.getElementById('subject').value.trim();
+      const day = document.getElementById('day').value.trim();
+      const time = document.getElementById('time').value.trim();
+
+      if (!subject || !day || !time) {
+        alert('يرجى تعبئة جميع الحقول');
+        return;
+      }
+
+      const exams = JSON.parse(localStorage.getItem('exams') || '[]');
+
+      if (editingIndex !== null) {
+        exams[editingIndex] = { subject, day, time };
+        editingIndex = null;
+      } else {
+        exams.push({ subject, day, time });
+      }
+
+      localStorage.setItem('exams', JSON.stringify(exams));
+      document.getElementById('subject').value = '';
+      document.getElementById('day').value = '';
+      document.getElementById('time').value = '';
+      renderExams();
+    }
+
+    function editExam(index) {
+      const exams = JSON.parse(localStorage.getItem('exams') || '[]');
+      const exam = exams[index];
+      document.getElementById('subject').value = exam.subject;
+      document.getElementById('day').value = exam.day;
+      document.getElementById('time').value = exam.time;
+      editingIndex = index;
+    }
+
+    function deleteExam(index) {
+      const exams = JSON.parse(localStorage.getItem('exams') || '[]');
+      exams.splice(index, 1);
+      localStorage.setItem('exams', JSON.stringify(exams));
+      renderExams();
+    }
+
+    function resetStudentData() {
+      localStorage.removeItem('studentData');
+      window.location.href = 'index.html'; // العودة إلى تسجيل الدخول
+    }
+
+    // تشغيل عند التحميل
+    renderWelcome();
+    renderExams();
   </script>
+
 </body>
 </html>
+
+
