@@ -4,7 +4,10 @@
   <meta charset="UTF-8" />
   <title>تسجيل دخول - نظام الدراسة السعودي</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="صفحة تسجيل دخول للطلاب السعوديين في نظام الدراسة السعودي" />
+  <meta name="description" content="تسجيل دخول الطلاب في نظام الدراسة السعودي لتخصيص جدول اختباراتهم بسهولة." />
+  <meta name="keywords" content="نظام الدراسة السعودي, تسجيل دخول, جدول الاختبارات, الطلاب, السعودية" />
+  <meta name="author" content="محمد اليوسفي" />
+  <link rel="icon" href="favicon.ico" type="image/x-icon" />
   <style>
     * { margin:0; padding:0; box-sizing:border-box; font-family:"Segoe UI", Tahoma, Geneva, Verdana, sans-serif; }
     body {
@@ -99,20 +102,31 @@
     .footer-link a:hover {
       text-decoration: underline;
     }
+    footer {
+      margin-top: 30px;
+      color: #ddd;
+      font-size: 0.85rem;
+    }
   </style>
+
+  <!-- إعادة التوجيه إذا كان المستخدم مسجلاً -->
+  <script>
+    const existingData = localStorage.getItem('studentData');
+    if (existingData) {
+      window.location.href = 'اختبارر.html';
+    }
+  </script>
 </head>
 <body>
   <nav>
     <a href="خدمة مدرستي.html" class="nav-link">الرئيسية</a>
-   
     <a href="الخطة.html" class="nav-link">الخطة</a>
     <a href="اختبارر.html" class="nav-link">جدول اختباراتك</a>
-    <a href="الاقسام.html"  class="nav-link" >العودة الى الأقسام</a>
-
+    <a href="الاقسام.html" class="nav-link">العودة الى الأقسام</a>
   </nav>
 
   <div class="login-container">
-    <h2>تسجيل الدخول لجدول اختبار </h2>
+    <h2>تسجيل الدخول لجدول اختبار</h2>
     <form id="loginForm">
       <label for="name">الاسم الكامل:</label>
       <input type="text" id="name" placeholder="أدخل اسمك الكامل" required />
@@ -125,17 +139,15 @@
 
       <button type="submit">دخول</button>
     </form>
-    <div class="footer-link">
-
-    </div>
+    <div class="footer-link"></div>
   </div>
 
   <footer>
-
     © 2025 موقع أدوات - تصميم وتطوير محمد اليوسفي
   </footer>
 
   <script>
+    // تفعيل الرابط الحالي
     const links = document.querySelectorAll('.nav-link');
     const currentPage = location.pathname.split('/').pop();
     links.forEach(link => {
@@ -144,20 +156,21 @@
       }
     });
 
+    // حفظ البيانات في LocalStorage وتوجيه المستخدم
     document.getElementById('loginForm').addEventListener('submit', e => {
       e.preventDefault();
       const name = document.getElementById('name').value.trim();
       const grade = document.getElementById('grade').value.trim();
       const school = document.getElementById('school').value.trim();
 
-      if(!name || !grade || !school) {
+      if (!name || !grade || !school) {
         alert('يرجى تعبئة جميع الحقول.');
         return;
       }
 
-      const studentData = {name, grade, school};
+      const studentData = { name, grade, school };
       localStorage.setItem('studentData', JSON.stringify(studentData));
-      alert(`مرحبًا ${name}! تم تسجيل الدخول بنجاح.     `);
+      alert(`مرحبًا ${name}! تم تسجيل الدخول بنجاح.`);
       window.location.href = 'اختبارر.html';
     });
   </script>
