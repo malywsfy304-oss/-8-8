@@ -1,49 +1,69 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>تحويل العملات من سعودي الى يمني والعكس</title>
-  <!-- 🔎 تحسين كامل للسيو داخل رأس الصفحة (بدون html أو head) -->
-
-<title>تحويل العملات بين الريال السعودي والريال اليمني | سعر صرف محدث</title>
-
-<meta name="description" content="حاسبة دقيقة لتحويل الريال السعودي إلى الريال اليمني والعكس. احصل على سعر الصرف اليومي، وابدأ التحويل بسهولة دون تعقيد.">
-
-<meta name="keywords" content="تحويل عملات, تحويل الريال السعودي, تحويل الريال اليمني, سعر صرف الريال السعودي اليوم, حاسبة عملات SAR YER, تحويل SAR YER, صرف عملات عربية">
-
-<meta name="robots" content="index, follow">
-<meta name="author" content="موقع تحويل العملات العربي">
-
-<!-- 🟦 وسوم Open Graph لفيسبوك -->
-<meta property="og:title" content="حاسبة تحويل الريال السعودي إلى اليمني والعكس">
-<meta property="og:description" content="أداة تحويل العملات بين SAR و YER، محدثة يوميًا، وسهلة الاستخدام">
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://example.com/sar-yer-converter">
-<meta property="og:image" content="https://example.com/images/converter-preview.jpg">
-
-<!-- 🐦 وسوم Twitter -->
-
-<meta name="twitter:title" content="تحويل ريال سعودي إلى ريال يمني">
-<meta name="twitter:description" content="جرب الآن حاسبة تحويل العملات بين SAR و YER مع أسعار صرف دقيقة ومحدثة يوميًا!">
-<meta name="twitter:image" content="https://example.com/images/twitter-card.jpg">
-
-<!-- 🔗 Canonical لمنع التكرار -->
-<link rel="canonical" href="https://example.com/sar-yer-converter">
-
-<!-- 📱 دعم الأجهزة المحمولة -->
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <link rel="stylesheet" href="xx.css">
+  <title>سعر الصرف في المدن</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      direction: rtl;
+      text-align: right;
+      margin: 40px;
+    }
+    label {
+      font-size: 18px;
+      font-weight: bold;
+    }
+    select {
+      padding: 10px;
+      font-size: 16px;
+      margin-top: 10px;
+      width: 250px;
+    }
+    #rate {
+      margin-top: 20px;
+      font-size: 18px;
+      color: #007BFF;
+    }
+  </style>
 </head>
+<body>
 
-<body> 
-     <h2>تحويل العملات من ريال السعودي الى اليمني</h2>
-<div>
+  <label for="city">سعر الصرف في:</label>
+  <select id="city" name="city" onchange="showExchangeRate()">
+    <option value="">-- اختر المدينة --</option>
+    <option value="aden">عدن</option>
+    <option value="sanaa">صنعاء</option>
+    <option value="riyadh">الرياض</option>
+    <option value="jeddah">جدة</option>
+    <option value="dubai">دبي</option>
+    <option value="cairo">القاهرة</option>
+  </select>
 
- <input type="number" placeholder="ريال سعودي" id="bom">
-<input type="number" placeholder="ريال يمني" id="tom">
-</div>
+  <div id="rate"></div>
+
+  <script>
+    function showExchangeRate() {
+      const city = document.getElementById("city").value;
+      const rateDisplay = document.getElementById("rate");
+
+      // أسعار صرف تقريبية مقابل الدولار الأمريكي
+      const exchangeRates = {
+        aden: "1 USD ≈ 1350 ريال يمني",
+        sanaa: "1 USD ≈ 530 ريال يمني",
+        riyadh: "1 USD ≈ 3.75 ريال سعودي",
+        jeddah: "1 USD ≈ 3.75 ريال سعودي",
+        dubai: "1 USD ≈ 3.67 درهم إماراتي",
+        cairo: "1 USD ≈ 30.90 جنيه مصري"
+      };
+
+      if (city && exchangeRates[city]) {
+        rateDisplay.textContent = exchangeRates[city];
+      } else {
+        rateDisplay.textContent = "";
+      }
+    }
+  </script>
 <!-- 🔄 توقيع محمد اليوسفي + زر الصفحة الرئيسية بلون معاكس أنيق -->
 <div style="margin-top: 40px; text-align: center; font-family: 'Tahoma', sans-serif; color: #f2f2f2; background: #6a1b9a; padding: 20px; border-radius: 10px;">
   <p>تصميم بواسطة <strong style="color:#ffd6ec;">محمد اليوسفي</strong></p>
@@ -51,13 +71,16 @@
     🌐 الصفحة الرئيسية
   </a>
 </div>
-
-
-
-
-<script src="main.js"></script>
 </body>
 </html>
+
+
+
+
+
+
+
+
 
 
 
