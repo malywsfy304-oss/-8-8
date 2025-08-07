@@ -1,21 +1,126 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1167740456463866"
-     crossorigin="anonymous"></script>
-  <meta name="google-adsense-account" content="ca-pub-1167740456463866">
-  <title>Document</title>
-</head>
-<link rel="stylesheet" href="xx.css">
-<body> 
-     <h2>تحويل العملات من ريال السعودي الى اليمني</h2>
-<div>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title> اسعار الصرف</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
 
- <input type="number" placeholder="ريال سعودي" id="bom">
-<input type="number" placeholder="ريال يمني" id="tom">
-</div>
+    body {
+      font-family: 'Tahoma', sans-serif;
+      background: linear-gradient(to bottom, #e0f7fa71, #ffffff63),url(dddd.jpg);
+     
+      margin: 0;
+      padding: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    .calculator {
+      background-color: #fff;
+      border-radius: 16px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      padding: 25px;
+      max-width: 400px;
+      width: 100%;
+    }
+
+    h2 {
+      text-align: center;
+      color: #00796b;
+      margin-bottom: 20px;
+    }
+
+    label {
+      font-weight: bold;
+      margin-top: 15px;
+      display: block;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 16px;
+    }
+
+    #result {
+      background-color: #e0f2f1;
+      padding: 15px;
+      text-align: center;
+      border-radius: 8px;
+      font-size: 18px;
+      font-weight: bold;
+      color: #004d40;
+    }
+
+    @media (max-width: 500px) {
+      .calculator {
+        padding: 15px;
+      }
+
+      h2 {
+        font-size: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="calculator">
+    <h2>💱 حاسبة سعر الصرف</h2>
+
+    <label for="amount">المبلغ بالريال السعودي 💵:</label>
+    <input type="number" id="amount" placeholder="أدخل المبلغ" oninput="calculate()" />
+
+    <label for="city">المدينة 📍:</label>
+    <select id="city" onchange="calculate()">
+      <option value="">اختر المدينة</option>
+      <option value="aden">عدن</option>
+      <option value="sanaa">صنعاء</option>
+    </select>
+
+    <label for="type">نوع العملية 🔁:</label>
+    <select id="type" onchange="calculate()">
+      <option value="">اختر العملية</option>
+      <option value="buy">شراء</option>
+      <option value="sell">بيع</option>
+    </select>
+
+    <div id="result"></div>
+  </div>
+
+  <script>
+    function calculate() {
+      const amount = parseFloat(document.getElementById("amount").value);
+      const city = document.getElementById("city").value;
+      const type = document.getElementById("type").value;
+
+      if (isNaN(amount) || !city || !type) {
+        document.getElementById("result").textContent = "";
+        return;
+      }
+
+      const rates = {
+        aden: { buy: 428, sell: 435  },
+        sanaa: { buy: 139, sell: 141 }
+      };
+
+      const rate = rates[city][type];
+      const total = amount * rate;
+
+      document.getElementById("result").textContent =
+        `💰 المبلغ بالريال: ${total.toLocaleString()} ريال يمني`;
+    }
+  </script>
 
    <div style="margin-top: 40px; text-align: center; font-family: 'Tahoma', sans-serif; color: #f2f2f2; background: #6a1b9a; padding: 20px; border-radius: 10px;">
   <p>تصميم بواسطة <strong style="color:#ffd6ec;">محمد اليوسفي</strong></p>
@@ -23,10 +128,10 @@
     🌐 الصفحة الرئيسية
   </a>
 </div>
-
-<script src="main.js"></script>
 </body>
 </html>
+
+
 
 
 
