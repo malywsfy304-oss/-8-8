@@ -1,40 +1,170 @@
 <!DOCTYPE html>
-<html lang="ar">
+<html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>حاسبة الصرف - الريال السعودي إلى اليمني</title>
-  <meta name="description" content="تحويل الريال السعودي إلى الريال اليمني حسب العاصمة ونوع العملية (بيع / شراء). تحديث تلقائي للموقع وسعر الصرف.">
-  <meta name="keywords" content="سعر الصرف اليمن, تحويل سعودي يمني, صنعاء, عدن, صرف سعودي, حاسبة سعر الصرف">
-  <meta name="author" content="Yemen Exchange Tool">
+  <title>محول العملات اليمنية - صنعاء وعدن | حاسبة العمر</title>
+  <meta name="description" content="حوّل بين الريال السعودي والريال اليمني بأسعار صرف صنعاء أو عدن، مع حاسبة عمر دقيقة. تصميم محمد اليوسفي.">
   <style>
     body {
-      font-family: 'Tahoma', sans-serif;
-      direction: rtl;
-      background: url('https://i.imgur.com/58PjNmn.jpg') no-repeat center center fixed;
-      background-size: cover;
-      margin: 0;
-      padding: 0;
-    }
-
-    .overlay {
-      background-color: rgba(255, 255, 255, 0.9);
-      min-height: 100vh;
-      padding: 30px;
-    }
-
-    .container {
-      max-width: 500px;
-      background-color: white;
-      padding: 25px;
-      margin: auto;
-      border-radius: 15px;
-      box-shadow: 0 0 20px rgba(0,0,0,0.2);
+      font-family: Arial;
+      background: #f5f5f5;
+      padding: 20px;
       text-align: center;
     }
+    .box {
+      background: white;
+      padding: 20px;
+      max-width: 500px;
+      margin: auto;
+      border-radius: 15px;
+      box-shadow: 0 0 10px #ccc;
+      margin-bottom: 30px;
+    }
+    select, input, button {
+      width: 100%;
+      padding: 10px;
+      margin: 8px 0;
+      font-size: 16px;
+    }
+    .result {
+      margin-top: 15px;
+      font-size: 18px;
+      color: green;
+    }
+    a {
+      text-decoration: none;
+      color: #007bff;
+    }
+    footer {
+      margin-top: 40px;
+      font-size: 14px;
+      color: #777;
+    }
+  </style>
+</head>
+<body>
 
-    h1 {
-      font-size: 24px;
+  <!-- أداة تحويل العملات -->
+  <section class="box">
+    <h2>🔁 محول العملات</h2>
+
+    <input type="number" id="amount" placeholder="أدخل المبلغ" />
+
+    <select id="from">
+      <option value="SAR">ريال سعودي</option>
+      <option value="USD">دولار أمريكي</option>
+    </select>
+
+    <select id="to">
+      <option value="YER">ريال يمني</option>
+    </select>
+
+    <select id="operation">
+      <option value="buy">شراء</option>
+      <option value="sell">بيع</option>
+    </select>
+
+    <select id="city">
+      <option value="sanaa">صنعاء</option>
+      <option value="aden">عدن</option>
+    </select>
+
+    <button onclick="convert()">تحويل</button>
+
+    <div class="result" id="result">النتيجة ستظهر هنا</div>
+
+    <!-- رابط لحاسبة العمر -->
+    <p style="margin-top: 20px;">
+      🧮 <strong>جرب أيضًا:</strong>
+      <a href="#age" title="حاسبة العمر - اعرف عمرك بدقة">حاسبة العمر – اعرف عمرك الآن</a>
+    </p>
+  </section>
+
+  <!-- حاسبة العمر -->
+  <section class="box" id="age">
+    <h2>📅 حاسبة العمر</h2>
+    <input type="date" id="birthdate" />
+    <button onclick="calculateAge()">احسب عمري</button>
+    <div class="result" id="ageResult">سيظهر عمرك هنا</div>
+  </section>
+
+  <!-- الفوتر -->
+  <footer>
+    <p>جميع الحقوق محفوظة © 2025 | تصميم <strong>محمد اليوسفي</strong></p>
+  </footer>
+
+  <!-- السكربت -->
+  <script>
+    async function convert() {
+      const amount = parseFloat(document.getElementById("amount").value);
+      const from = document.getElementById("from").value;
+      const to = document.getElementById("to").value;
+      const operation = document.getElementById("operation").value;
+      const city = document.getElementById("city").value;
+      const resultBox = document.getElementById("result");
+
+      if (!amount || isNaN(amount)) {
+        resultBox.innerText = "الرجاء إدخال مبلغ صحيح.";
+        return;
+      }
+
+      const apiKey = "39af8bc8d12700318da60b06c4"; // ← مفتاحك الخاص
+      const url = `https://v6.exchangerate-api.com/v6/${apiKey}/latest/${from}`;
+
+      try {
+        const res = await fetch(url);
+        const data = await res.json();
+        const baseRate = data.conversion_rates[to];
+
+        // تعديل السعر يدويًا حسب المدينة والعملية
+        let customRate = 1;
+
+        if (city === "sanaa") {
+          customRate = operation === "buy" ? 535 : 530;
+        } else if (city === "aden") {
+          customRate = operation === "buy" ? 1450 : 1400;
+        }
+
+        const converted = (amount * customRate).toFixed(2);
+
+        resultBox.innerText = `${amount} ${from} = ${converted} ريال يمني (${operation === "buy" ? "شراء" : "بيع"} - ${city === "sanaa" ? "صنعاء" : "عدن"})`;
+
+      } catch (err) {
+        resultBox.innerText = "حدث خطأ أثناء الاتصال بسيرفر الأسعار.";
+      }
+    }
+
+    function calculateAge() {
+      const birthdate = document.getElementById("birthdate").value;
+      const ageBox = document.getElementById("ageResult");
+
+      if (!birthdate) {
+        ageBox.innerText = "الرجاء إدخال تاريخ الميلاد.";
+        return;
+      }
+
+      const birth = new Date(birthdate);
+      const today = new Date();
+      let years = today.getFullYear() - birth.getFullYear();
+      let months = today.getMonth() - birth.getMonth();
+      let days = today.getDate() - birth.getDate();
+
+      if (days < 0) {
+        months--;
+        days += 30;
+      }
+      if (months < 0) {
+        years--;
+        months += 12;
+      }
+
+      ageBox.innerText = `عمرك هو ${years} سنة و ${months} شهر و ${days} يوم.`;
+    }
+  </script>
+
+</body>
+</html>      font-size: 24px;
       margin-bottom: 10px;
     }
 
@@ -164,6 +294,7 @@
 
 </body>
 </html>
+
 
 
 
