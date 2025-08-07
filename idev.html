@@ -1,69 +1,111 @@
 <!DOCTYPE html>
 <html lang="ar">
 <head>
-  <meta charset="UTF-8">
-  <title>سعر الصرف في المدن</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="حاسبة سعر الصرف في اليمن - عدن وصنعاء - البيع والشراء تلقائي">
+  <meta name="keywords" content="سعر الصرف في اليمن، الدولار، الريال اليمني، صنعاء، عدن، بيع الدولار، شراء الدولار">
+  <meta name="author" content="Yemen Exchange Calculator">
+  <title>حاسبة سعر الصرف - اليمن</title>
   <style>
     body {
-      font-family: 'Segoe UI', sans-serif;
+      font-family: Arial, sans-serif;
       direction: rtl;
-      text-align: right;
-      margin: 40px;
+      background-color: #f8f8f8;
+      padding: 20px;
     }
-    label {
+    .container {
+      max-width: 400px;
+      margin: auto;
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    label, select, input {
+      display: block;
+      width: 100%;
+      margin-bottom: 10px;
+      padding: 8px;
+    }
+    button {
+      background-color: #28a745;
+      color: white;
+      border: none;
+      padding: 10px;
+      width: 100%;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #218838;
+    }
+    .result {
+      margin-top: 15px;
       font-size: 18px;
       font-weight: bold;
-    }
-    select {
-      padding: 10px;
-      font-size: 16px;
-      margin-top: 10px;
-      width: 250px;
-    }
-    #rate {
-      margin-top: 20px;
-      font-size: 18px;
-      color: #007BFF;
+      color: #333;
     }
   </style>
 </head>
 <body>
+  <div class="container">
+    <h1>حاسبة سعر الصرف - اليمن</h1>
+    <p id="location">جاري تحديد موقعك...</p>
 
-  <label for="city">سعر الصرف في:</label>
-  <select id="city" name="city" onchange="showExchangeRate()">
-    <option value="">-- اختر المدينة --</option>
-    <option value="aden">عدن</option>
-    <option value="sanaa">صنعاء</option>
-    <option value="riyadh">الرياض</option>
-    <option value="jeddah">جدة</option>
-    <option value="dubai">دبي</option>
-    <option value="cairo">القاهرة</option>
-  </select>
+    <label for="type">نوع العملية</label>
+    <select id="type">
+      <option value="buy">شراء</option>
+      <option value="sell">بيع</option>
+    </select>
 
-  <div id="rate"></div>
+    <label for="amount">المبلغ بالدولار</label>
+    <input type="number" id="amount" placeholder="مثال: 100" />
+
+    <button onclick="calculate()">احسب</button>
+    <div class="result" id="result"></div>
+  </div>
 
   <script>
-    function showExchangeRate() {
-      const city = document.getElementById("city").value;
-      const rateDisplay = document.getElementById("rate");
+    let userLocation = "عدن"; // الافتراضي
+    let rates = {
+      "عدن": { buy: 1300, sell: 1320 },
+      "صنعاء": { buy: 530, sell: 540 }
+    };
 
-      // أسعار صرف تقريبية مقابل الدولار الأمريكي
-      const exchangeRates = {
-        aden: "1 USD ≈ 1350 ريال يمني",
-        sanaa: "1 USD ≈ 530 ريال يمني",
-        riyadh: "1 USD ≈ 3.75 ريال سعودي",
-        jeddah: "1 USD ≈ 3.75 ريال سعودي",
-        dubai: "1 USD ≈ 3.67 درهم إماراتي",
-        cairo: "1 USD ≈ 30.90 جنيه مصري"
-      };
+    // تحديد الموقع من IP
+    fetch('https://ipapi.co/json/')
+      .then(res => res.json())
+      .then(data => {
+        if (data.country_name === "Yemen") {
+          // افتراض عدن إذا لم نعرف المدينة
+          if (data.city.includes("Sana") || data.region.includes("Amanat")) {
+            userLocation = "صنعاء";
+          }
+        }
+        document.getElementById("location").innerText = "تم تحديد موقعك: " + userLocation;
+      })
+      .catch(() => {
+        document.getElementById("location").innerText = "لم يتم تحديد الموقع، تم تعيين عدن تلقائيًا.";
+      });
 
-      if (city && exchangeRates[city]) {
-        rateDisplay.textContent = exchangeRates[city];
-      } else {
-        rateDisplay.textContent = "";
+    function calculate() {
+      const type = document.getElementById("type").value;
+      const amount = parseFloat(document.getElementById("amount").value);
+
+      if (isNaN(amount) || amount <= 0) {
+        document.getElementById("result").innerText = "يرجى إدخال مبلغ صحيح.";
+        return;
       }
+
+      const rate = rates[userLocation][type];
+      const result = rate * amount;
+      document.getElementById("result").innerText = `المبلغ بالريال (${userLocation}): ${result.toLocaleString()} ريال`;
     }
   </script>
+</body>
+</html>
+
 <!-- 🔄 توقيع محمد اليوسفي + زر الصفحة الرئيسية بلون معاكس أنيق -->
 <div style="margin-top: 40px; text-align: center; font-family: 'Tahoma', sans-serif; color: #f2f2f2; background: #6a1b9a; padding: 20px; border-radius: 10px;">
   <p>تصميم بواسطة <strong style="color:#ffd6ec;">محمد اليوسفي</strong></p>
@@ -71,8 +113,8 @@
     🌐 الصفحة الرئيسية
   </a>
 </div>
-</body>
-</html>
+
+
 
 
 
