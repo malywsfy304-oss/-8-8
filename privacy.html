@@ -1,25 +1,30 @@
+
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>سياسة الخصوصية</title>
+  <meta name="description" content="تعرف على سياسة الخصوصية الخاصة بموقعنا وكيفية حماية بياناتك.">
+  <meta name="keywords" content="سياسة الخصوصية, حماية البيانات, خصوصية المستخدم">
+  <meta name="author" content="محمد اليوسفي">
+  <title>سياسة الخصوصية | حماية بياناتك</title>
   <style>
     :root {
       --bg-color: #ffffff;
-      --text-color: #222222;
-      --accent-color: #32a2aa;
-      --header-bg: #1476d7;
-      --header-text: #f2f2f2;
+      --text-color: #1a1a1a;
+      --accent-color: #d62828; /* زر أحمر أنيق */
+      --accent-hover: #a61c1c;
+      --header-bg: #003049;
+      --header-text: #ffffff;
     }
 
     body {
-      font-family: Tahoma, sans-serif;
+      font-family: 'Segoe UI', Tahoma, sans-serif;
       margin: 0;
       padding: 0;
       background-color: var(--bg-color);
       color: var(--text-color);
-      transition: all 0.3s ease;
+      line-height: 1.8;
     }
 
     header, footer {
@@ -35,61 +40,73 @@
       margin: auto;
     }
 
-    .theme-switcher {
-      text-align: center;
-      margin-top: 1rem;
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
     }
 
-    .theme-button {
+    p {
+      margin-bottom: 1rem;
+    }
+
+    .cta-button {
+      display: inline-block;
       background-color: var(--accent-color);
       color: white;
-      border: none;
-      padding: 10px 20px;
-      border-radius: 6px;
-      cursor: pointer;
+      padding: 12px 24px;
+      text-decoration: none;
+      border-radius: 8px;
       font-weight: bold;
+      transition: background-color 0.3s ease;
+      margin-top: 2rem;
     }
 
-    .theme-2 {
-      --bg-color: #222;
-      --text-color: #eee;
-      --header-bg: #444;
-      --header-text: #fff;
+    .cta-button:hover {
+      background-color: var(--accent-hover);
+    }
+
+    footer {
+      font-size: 0.9rem;
     }
   </style>
 </head>
-<body class="theme-1">
+<body>
 
   <header>
     <h1>سياسة الخصوصية</h1>
+    <p>خصوصيتك أولويتنا</p>
   </header>
 
   <main>
-    <p>نحن نحترم خصوصيتك. موقعنا لا يجمع أي بيانات شخصية ولا يتطلب تسجيل دخول.</p>
-    <p>جميع الأدوات المتوفرة تعمل محليًا داخل المتصفح دون تخزين أو مشاركة لأي معلومات.</p>
-    <p>قد نستخدم أدوات تحليل عامة لتحسين الأداء فقط، دون تعقب الهوية.</p>
-    <p>باستخدامك لموقعنا، فإنك توافق على هذه السياسة.</p>
+    <section>
+      <h2>مقدمة</h2>
+      <p>نحن نحترم خصوصيتك. موقعنا لا يجمع أي بيانات شخصية ولا يتطلب تسجيل دخول.</p>
+    </section>
 
-    <div class="theme-switcher">
-      <button class="theme-button" onclick="setTheme('theme-2')">تفعيل الوضع الداكن</button>
-      <button class="theme-button" onclick="setTheme('theme-1')">تفعيل الوضع الفاتح</button>
-    </div>
+    <section>
+      <h2>استخدام الأدوات</h2>
+      <p>جميع الأدوات المتوفرة تعمل محليًا داخل المتصفح دون تخزين أو مشاركة لأي معلومات.</p>
+    </section>
+
+    <section>
+      <h2>تحسين الأداء</h2>
+      <p>قد نستخدم أدوات تحليل عامة لتحسين الأداء فقط، دون تعقب الهوية.</p>
+    </section>
+
+    <section>
+      <h2>الموافقة</h2>
+      <p>باستخدامك لموقعنا، فإنك توافق على هذه السياسة.</p>
+    </section>
+
+    <a href="الاقسام.html" class="cta-button">تصفح الأقسام</a>
   </main>
 
   <footer>
-    تصميم محمد اليوسفي ©
+    تصميم محمد اليوسفي © جميع الحقوق محفوظة
   </footer>
-
-  <script>
-    function setTheme(themeName) {
-      document.body.className = themeName;
-    }
-  </script>
 
 </body>
 </html>
-
-
 
 
 
