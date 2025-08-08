@@ -6,10 +6,13 @@
   <title>سياسة الخصوصية</title>
   <style>
     :root {
-      --bg-color: #fff;
-      --text-color: #222;
+      --bg-color: #ffffff;
+      --text-color: #222222;
       --accent-color: #32a2aa;
+      --header-bg: #1476d7;
+      --header-text: #f2f2f2;
     }
+
     body {
       font-family: Tahoma, sans-serif;
       margin: 0;
@@ -18,23 +21,41 @@
       color: var(--text-color);
       transition: all 0.3s ease;
     }
+
     header, footer {
-      background-color: #1476;
-      color: #f247;
+      background-color: var(--header-bg);
+      color: var(--header-text);
       padding: 1rem;
       text-align: center;
     }
+
     main {
       padding: 2rem;
       max-width: 800px;
       margin: auto;
     }
+
     .theme-switcher {
       text-align: center;
       margin-top: 1rem;
     }
 
+    .theme-button {
+      background-color: var(--accent-color);
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+    }
 
+    .theme-2 {
+      --bg-color: #222;
+      --text-color: #eee;
+      --header-bg: #444;
+      --header-text: #fff;
+    }
   </style>
 </head>
 <body class="theme-1">
@@ -48,30 +69,12 @@
     <p>جميع الأدوات المتوفرة تعمل محليًا داخل المتصفح دون تخزين أو مشاركة لأي معلومات.</p>
     <p>قد نستخدم أدوات تحليل عامة لتحسين الأداء فقط، دون تعقب الهوية.</p>
     <p>باستخدامك لموقعنا، فإنك توافق على هذه السياسة.</p>
+
+    <div class="theme-switcher">
+      <button class="theme-button" onclick="setTheme('theme-2')">تفعيل الوضع الداكن</button>
+      <button class="theme-button" onclick="setTheme('theme-1')">تفعيل الوضع الفاتح</button>
+    </div>
   </main>
-
-<div style="
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-">
-  <a href="الاقسام.html" style="
-    display: inline-block;
-    background-color: #8b0000;
-    color: white;
-
-    text-decoration: none;
-    border-radius: 8px;
-    font-weight: bold;
-    font-family: 'Segoe UI', sans-serif;
-
-  ">
-    اضغط هنا لتصفح الأقسام
-  </a>
-</div>
-
-
 
   <footer>
     تصميم محمد اليوسفي ©
@@ -85,7 +88,6 @@
 
 </body>
 </html>
-
 
 
 
