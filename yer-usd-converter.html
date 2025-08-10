@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />  <!-- عنوان الصفحة -->
+  <title>تحويل الدولار إلى الريال اليمني والعكس - حاسبة العملات</title>
+
+  <!-- وصف الصفحة لمحركات البحث -->
+  <meta name="description" content="حوّل الدولار الأمريكي إلى الريال اليمني والعكس باستخدام حاسبة العملات الدقيقة. احصل على نتائج فورية وسعر صرف محدث.">
+
+  <!-- كلمات مفتاحية تساعد في الظهور في نتائج البحث -->
+  <meta name="keywords" content="تحويل العملات, دولار إلى ريال يمني, ريال يمني إلى دولار, سعر الدولار في اليمن, حاسبة العملات, سعر الصرف اليوم">
+
+
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1167740456463866"
+     crossorigin="anonymous"></script>
+  <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-BLN0EVR8L2"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+
+
+
+
+
+
+
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-BLN0EVR8L2');
+</script>
+  <title> اسعار الصرف</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Tahoma', sans-serif;
+      background: linear-gradient(to bottom, #e0f7fa71, #ffffff63),url(dddd.jpg);
+     
+      margin: 0;
+      padding: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    .calculator {
+      background-color: #fff;
+      border-radius: 16px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      padding: 25px;
+      max-width: 400px;
+      width: 100%;
+    }
+
+    h2 {
+      text-align: center;
+      color: #00796b;
+      margin-bottom: 20px;
+    }
+
+    label {
+      font-weight: bold;
+      margin-top: 15px;
+      display: block;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 16px;
+    }
+
+    #result {
+      background-color: #e0f2f1;
+      padding: 15px;
+      text-align: center;
+      border-radius: 8px;
+      font-size: 18px;
+      font-weight: bold;
+      color: #004d40;
+    }
+
+    @media (max-width: 500px) {
+      .calculator {
+        padding: 15px;
+      }
+
+      h2 {
+        font-size: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="calculator">
+    <h2>💱 حاسبة سعر الصرف</h2>
+
+    <label for="amount">المبلغ بالدولار 💵:</label>
+    <input type="number" id="amount" placeholder="أدخل المبلغ" oninput="calculate()" />
+
+    <label for="city">المدينة 📍:</label>
+    <select id="city" onchange="calculate()">
+      <option value="">اختر المدينة</option>
+      <option value="aden">عدن</option>
+      <option value="sanaa">صنعاء</option>
+    </select>
+
+    <label for="type">نوع العملية 🔁:</label>
+    <select id="type" onchange="calculate()">
+      <option value="">اختر العملية</option>
+      <option value="buy">شراء</option>
+      <option value="sell">بيع</option>
+    </select>
+
+    <div id="result"></div>
+       <div style="margin-top: 40px; text-align: center; font-family: 'Tahoma', sans-serif; color: #f2f2f2; background: #6a1b9a; padding: 20px; border-radius: 10px;">
+  <p>تصميم بواسطة <strong style="color:#ffd6ec;">محمد اليوسفي</strong></p>
+  <a href="index.html" style="display: inline-block; margin-top: 10px; padding: 10px 25px; background: #ffffff; color: #6a1b9a; text-decoration: none; border-radius: 25px; box-shadow: 0 2px 5px rgba(0,0,0,0.2); transition: background 0.3s ease;">
+    🌐 الصفحة الرئيسية
+  </a>
+</div>
+  </div>
+
+
+  <script>
+    function calculate() {
+      const amount = parseFloat(document.getElementById("amount").value);
+      const city = document.getElementById("city").value;
+      const type = document.getElementById("type").value;
+
+      if (isNaN(amount) || !city || !type) {
+        document.getElementById("result").textContent = "";
+        return;
+      }
+
+      const rates = {
+        aden: { buy: 1618, sell:  1676 },
+        sanaa: { buy: 534, sell: 536 }
+      };
+
+      const rate = rates[city][type];
+      const total = amount * rate;
+
+      document.getElementById("result").textContent =
+        `💰 المبلغ بالريال: ${total.toLocaleString()} ريال يمني`;
+    }
+  </script>
+
+</body>
+</html>
