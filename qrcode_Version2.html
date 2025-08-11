@@ -6,7 +6,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="أنشئ كود QR لأي نص أو رابط بسهولة وبدون تسجيل. استخدم مولّد كيو آر كود المجاني من منصة أداتي وشارك كودك فوراً.">
   <meta name="keywords" content="QR, كود QR, مولد كيو آر, كيو آر كود, أدوات مجانية, QR Code Generator, أداتي">
-  <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
   <meta name="author" content="منصة أداتي">
   <meta property="og:title" content="مولّد كود QR مجاني وسريع | منصة أداتي">
   <meta property="og:description" content="أنشئ كود QR لأي نص أو رابط بسهولة وبدون تسجيل. استخدم مولّد كيو آر كود المجاني من منصة أداتي وشارك كودك فوراً.">
@@ -38,6 +37,7 @@
   <button onclick="generateQR()">إنشاء الكود</button>
   <div id="qrcode"></div>
   <button id="download-btn" onclick="downloadQR()">تحميل الكود كصورة</button>
+  
 </main>
 <script src="https://cdn.jsdelivr.net/gh/davidshimjs/qrcodejs/qrcode.min.js"></script>
 <script>
@@ -58,18 +58,32 @@
       height: 220,
       correctLevel: QRCode.CorrectLevel.H
     });
-    setTimeout(() => { // ضمان رسم الكود أولاً
+    setTimeout(() => {
       dlBtn.style.display = "inline-block";
     }, 500);
   }
 
   function downloadQR() {
+    // جلب العنصر إما كـ img أو canvas
     const qrImg = document.querySelector("#qrcode img");
-    if (!qrImg) return alert("يجب إنشاء كود أولاً!");
+    const qrCanvas = document.querySelector("#qrcode canvas");
+    let dataUrl = "";
+
+    if (qrImg && qrImg.src && qrImg.src.startsWith("data:image")) {
+      dataUrl = qrImg.src;
+    } else if (qrCanvas) {
+      dataUrl = qrCanvas.toDataURL("image/png");
+    } else {
+      alert("يجب إنشاء كود أولاً!");
+      return;
+    }
+
     const link = document.createElement('a');
-    link.href = qrImg.src;
+    link.href = dataUrl;
     link.download = 'qr-code.png';
+    document.body.appendChild(link);
     link.click();
+    document.body.removeChild(link);
   }
 </script>
 </body>
