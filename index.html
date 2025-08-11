@@ -54,10 +54,41 @@
 <footer>
   © 2025 محمد اليوسفي. جميع الحقوق محفوظة.
 </footer>
+<script>
+  // قائمة الأدوات/الصفحات، عدّلها حسب موقعك
+  const pages = [
+    { title: "أداة تلخيص النصوص", description: "تلخص النص العربي تلقائياً.", url: "summarizer.html" },
+    { title: "محول نص إلى صورة", description: "حوّل الجمل إلى صور جميلة.", url: "text2image.html" },
+    { title: "الصفحة الرئيسية", description: "انطلق من هنا!", url: "index.html" },
+    { title: "مراقبة الأسعار", description: "راقب أسعار المنتجات المفضلة.", url: "pricewatch.html" },
+    // أضف المزيد حسب حاجتك
+  ];
 
+  const input = document.getElementById('searchInput');
+  const resultsDiv = document.getElementById('results');
+
+  input.addEventListener('input', function() {
+    const q = input.value.trim();
+    resultsDiv.innerHTML = "";
+    if (!q) return;
+    const found = pages.filter(
+      page => page.title.includes(q) || page.description.includes(q)
+    );
+    if (found.length === 0) {
+      resultsDiv.innerHTML = "<p>لا توجد نتائج.</p>";
+    } else {
+      resultsDiv.innerHTML = found.map(
+        page => `<div style='background:#fff;margin-top:10px;padding:15px;border-radius:8px;box-shadow:0 2px 6px #eee;'>
+                  <a href="${page.url}" style='color:#0077cc;text-decoration:none;'><b>${page.title}</b></a><br>${page.description}
+                 </div>`
+      ).join('');
+    }
+  });
+</script>
 <script src="js/"></script>
 </body>
 </html>
+
 
 
 
