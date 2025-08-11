@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="موقع تحويل التاريخ بين الميلادي والهجري بسهولة، مع عرض اسم اليوم ونتيجة التحويل فقط.">
+    <meta name="keywords" content="تحويل التاريخ, هجري, ميلادي, اسم اليوم, تقويم">
+    <title>تحويل التاريخ بين الميلادي والهجري</title>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Tajawal', sans-serif;
+            background: linear-gradient(135deg, #74ABE2, #5563DE);
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+        h1 {
+            margin-bottom: 20px;
+        }
+        .converter {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+            text-align: center;
+            width: 320px;
+        }
+        input, select, button {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 8px;
+            border: none;
+            outline: none;
+            font-size: 16px;
+        }
+        button {
+            background: #FFB74D;
+            color: #000;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        button:hover {
+            background: #FFA000;
+        }
+        .result {
+            margin-top: 15px;
+            font-size: 18px;
+            font-weight: bold;
+            background: rgba(0,0,0,0.2);
+            padding: 10px;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>تحويل التاريخ بين الميلادي والهجري</h1>
+    <div class="converter">
+        <label>اختر التاريخ:</label>
+        <input type="date" id="dateInput">
+        <select id="conversionType">
+            <option value="toHijri">من ميلادي إلى هجري</option>
+            <option value="toGregorian">من هجري إلى ميلادي</option>
+        </select>
+        <button onclick="convertDate()">تحويل</button>
+        <div class="result" id="result"></div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment-hijri/2.1.2/moment-hijri.min.js"></script>
+    <script>
+        moment.locale('ar');
+
+        function convertDate() {
+            const dateInput = document.getElementById('dateInput').value;
+            const type = document.getElementById('conversionType').value;
+            let output = '';
+
+            if (!dateInput) {
+                output = 'الرجاء اختيار تاريخ';
+            } else {
+                if (type === 'toHijri') {
+                    const dayName = moment(dateInput).format('dddd');
+                    const hijriDate = moment(dateInput, 'YYYY-MM-DD').format('iD iMMMM iYYYY');
+                    output = `${dayName} — ${hijriDate}`;
+                } else {
+                    const dayName = moment(dateInput, 'iYYYY/iMM/iDD').format('dddd');
+                    const gregorianDate = moment(dateInput, 'iYYYY/iMM/iDD').format('D MMMM YYYY');
+                    output = `${dayName} — ${gregorianDate}`;
+                }
+            }
+
+            document.getElementById('result').innerText = output;
+        }
+    </script>
+</body>
+</html>
