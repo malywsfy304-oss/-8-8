@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>دفتر رسائل شخصي (محلي فقط)</title>
+  <style>
+    body {font-family: Tahoma; background: #f7f7f7; padding: 30px;}
+    .box {max-width: 480px; margin: auto; background: #fff; border-radius: 10px; box-shadow: 0 2px 8px #eee; padding: 20px;}
+    #inbox {margin-top: 22px;}
+    .msg {background: #f1f1fd; margin: 7px 0; padding: 12px; border-radius: 7px;}
+    .notif {background:#191970;color:#fff;padding:9px 13px;display:inline-block;border-radius:7px;display:none;}
+    .delbtn {background:#d32f2f;color:#fff;border:none;padding:3px 12px;border-radius:4px;float:left;cursor:pointer;}
+  </style>
+</head>
+<body>
+<div class="box">
+  <h2>دفتر رسائل شخصي</h2>
+  <div>
+    <input type="text" id="msg" placeholder="اكتب ملاحظة أو رسالة..." style="width:80%;">
+    <button onclick="sendMsg()">حفظ</button>
+    <span class="notif" id="notif"></span>
+  </div>
+  <div id="inbox"></div>
+</div>
+<script>
+  // جلب الرسائل من LocalStorage
+  let messages = JSON.parse(localStorage.getItem("my_msgs")||"[]");
+
+  function sendMsg() {
+    const msg = document.getElementById("msg").value.trim();
+    if (!msg) return;
+    messages.push({text: msg, date: new Date().toLocaleString()});
+    localStorage.setItem("my_msgs", JSON.stringify(messages));
+    document.getElementById("msg").value = "";
+    showNotif("تم حفظ الرسالة!");
+    updateInbox();
+  }
+
+  function deleteMsg(idx) {
+    if (!confirm("هل أنت متأكد من حذف هذه الرسالة؟")) return;
+    messages.splice(idx,1);
+    localStorage.setItem("my_msgs", JSON.stringify(messages));
+    updateInbox();
+  }
+
+  function updateInbox() {
+    const inbox = document.getElementById("inbox");
+    inbox.innerHTML = "";
+    messages.slice(-20).reverse().forEach((m,i) => {
+      const trueIdx = messages.length-1-i;
+      inbox.innerHTML += `<div class="msg">
+        <button class="delbtn" onclick="deleteMsg(${trueIdx})">حذف</button>
+        ${m.text} <small style="color:#888">${m.date}</small>
+      </div>`;
+    });
+  }
+
+  function showNotif(txt) {
+    const n = document.getElementById('notif');
+    n.textContent = txt;
+    n.style.display = "inline-block";
+    setTimeout(() => { n.style.display = "none"; }, 1600);
+  }
+
+  updateInbox();
+</script>
+</body>
+</html>
