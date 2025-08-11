@@ -64,12 +64,15 @@
 
     <h1>تحويل التاريخ بين الميلادي والهجري</h1>
     <div class="converter">
-        <label>اختر التاريخ:</label>
-        <input type="date" id="dateInput">
-        <select id="conversionType">
+        <label>اختر نوع التحويل:</label>
+        <select id="conversionType" onchange="updateInputType()">
             <option value="toHijri">من ميلادي إلى هجري</option>
             <option value="toGregorian">من هجري إلى ميلادي</option>
         </select>
+
+        <label id="dateLabel">اختر التاريخ الميلادي:</label>
+        <input type="date" id="dateInput">
+
         <button onclick="convertDate()">تحويل</button>
         <div class="result" id="result"></div>
     </div>
@@ -79,27 +82,54 @@
     <script>
         moment.locale('ar');
 
+        function updateInputType() {
+            const type = document.getElementById('conversionType').value;
+            const input = document.getElementById('dateInput');
+            const label = document.getElementById('dateLabel');
+
+            if (type === 'toHijri') {
+                input.type = 'date';
+                input.placeholder = '';
+                label.innerText = 'اختر التاريخ الميلادي:';
+            } else {
+                input.type = 'text';
+                input.placeholder = 'مثال: 1445/01/15';
+                label.innerText = 'أدخل التاريخ الهجري:';
+            }
+
+            document.getElementById('result').innerText = '';
+            input.value = '';
+        }
+
         function convertDate() {
-            const dateInput = document.getElementById('dateInput').value;
+            const dateInput = document.getElementById('dateInput').value.trim();
             const type = document.getElementById('conversionType').value;
             let output = '';
 
             if (!dateInput) {
-                output = 'الرجاء اختيار تاريخ';
+                output = 'الرجاء إدخال التاريخ';
             } else {
                 if (type === 'toHijri') {
-                    const dayName = moment(dateInput).format('dddd');
+                    const dayName = moment(dateInput, 'YYYY-MM-DD').format('dddd');
                     const hijriDate = moment(dateInput, 'YYYY-MM-DD').format('iD iMMMM iYYYY');
                     output = `${dayName} — ${hijriDate}`;
                 } else {
-                    const dayName = moment(dateInput, 'iYYYY/iMM/iDD').format('dddd');
-                    const gregorianDate = moment(dateInput, 'iYYYY/iMM/iDD').format('D MMMM YYYY');
-                    output = `${dayName} — ${gregorianDate}`;
+                    const hijriMoment = moment(dateInput, 'iYYYY/iMM/iDD');
+                    if (!hijriMoment.isValid()) {
+                        output = 'تنسيق التاريخ الهجري غير صحيح. استخدم: YYYY/MM/DD';
+                    } else {
+                        const dayName = hijriMoment.format('dddd');
+                        const gregorianDate = hijriMoment.format('D MMMM YYYY');
+                        output = `${dayName} — ${gregorianDate}`;
+                    }
                 }
             }
 
             document.getElementById('result').innerText = output;
         }
+
+        // تهيئة الحقل عند تحميل الصفحة
+        updateInputType();
     </script>
 </body>
 </html>
