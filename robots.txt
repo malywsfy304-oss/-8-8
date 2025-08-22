@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://adawat.me/sitemap.xml
+Sitemap: https://www.adawat.me/sitemap.xml
