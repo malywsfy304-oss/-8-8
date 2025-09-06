@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ملصق البرمجة المتطور</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&family=Orbitron:wght@400;700&family=Changa:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #00f2ff;
+            --secondary: #a8ffb2;
+            --accent: #f5b100;
+            --dark: #0a0a1a;
+            --darker: #050510;
+        }
+        
+        body {
+            font-family: 'Cairo', sans-serif;
+            background: linear-gradient(135deg, var(--darker) 0%, var(--dark) 50%, #1a1a2e 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            overflow-x: hidden;
+            padding: 20px;
+        }
+        
+        .poster-container {
+            width: 85%;
+            max-width: 1000px;
+            aspect-ratio: 1 / 1.414;
+            background: radial-gradient(ellipse at center, #1a1a2e 0%, #0a0a1a 70%);
+            color: #fff;
+            position: relative;
+            border-radius: 2.5rem;
+            overflow: hidden;
+            box-shadow: 0 0 60px rgba(100, 255, 255, 0.7), 
+                        0 0 100px rgba(150, 50, 255, 0.5),
+                        inset 0 0 30px rgba(0, 242, 255, 0.2);
+            border: 2px solid transparent;
+            background-clip: padding-box;
+            transition: transform 0.5s ease;
+        }
+        
+        .poster-container::before {
+            content: '';
+            position: absolute;
+            top: 0; right: 0; bottom: 0; left: 0;
+            z-index: -1;
+            margin: -2px;
+            border-radius: inherit;
+            background: linear-gradient(45deg, var(--primary), var(--secondary), var(--accent), var(--primary));
+            animation: border-glow 3s linear infinite;
+        }
+        
+        .header {
+            font-family: 'Changa', sans-serif;
+            font-size: clamp(2.8rem, 10vw, 7.5rem);
+            font-weight: 800;
+            text-align: center;
+            padding: 3rem 1rem 0;
+            background: linear-gradient(45deg, var(--primary), var(--secondary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 20px rgba(0, 242, 255, 0.7), 
+                         0 0 40px rgba(255, 255, 255, 0.4);
+            letter-spacing: 2px;
+            direction: rtl;
+            position: relative;
+            z-index: 2;
+            margin-bottom: 0.5rem;
+            animation: title-glitch 8s infinite;
+        }
+        
+        .slogan {
+            font-size: clamp(1.2rem, 4vw, 3.2rem);
+            text-align: center;
+            color: #e0e0e0;
+            direction: rtl;
+            font-weight: 700;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.4);
+            margin-top: -0.5rem;
+            position: relative;
+            z-index: 2;
+            padding: 0 2rem;
+            line-height: 1.4;
+        }
+        
+        .code-block {
+            background-color: rgba(10, 10, 26, 0.7);
+            padding: 2.5rem;
+            margin: 3rem;
+            border-radius: 1.8rem;
+            backdrop-filter: blur(8px);
+            border: 2px solid rgba(0, 95, 115, 0.5);
+            box-shadow: inset 0 0 25px rgba(0, 242, 255, 0.3), 
+                        0 0 40px rgba(0, 242, 255, 0.5);
+            font-family: 'Courier New', Courier, monospace;
+            font-size: clamp(0.8rem, 2vw, 1.4rem);
+            white-space: pre-wrap;
+            overflow: hidden;
+            direction: ltr;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .code-block::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 30px;
+            background: linear-gradient(to bottom, rgba(0, 242, 255, 0.2), transparent);
+            border-radius: 1.8rem 1.8rem 0 0;
+        }
+        
+        .code-line {
+            line-height: 1.7;
+            display: flex;
+            gap: 1.2rem;
+            opacity: 0.9;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .code-line:hover {
+            opacity: 1;
+            transform: translateX(5px);
+            text-shadow: 0 0 8px rgba(255, 255, 255, 0.7);
+        }
+        
+        .line-number {
+            color: #4a4a5a;
+            user-select: none;
+            min-width: 30px;
+            text-align: right;
+        }
+        
+        .keyword { color: #5ad3ff; font-weight: bold; }
+        .function { color: #f5b100; }
+        .string { color: #a8ffb2; }
+        .comment { color: #4a4a5a; font-style: italic; }
+        
+        .footer {
+            position: absolute;
+            bottom: 3rem;
+            left: 0;
+            right: 0;
+            text-align: center;
+            font-size: clamp(1rem, 2.5vw, 1.6rem);
+            color: #fff;
+            direction: rtl;
+            font-weight: 500;
+            padding: 0 3rem;
+            z-index: 2;
+        }
+        
+        .floating-elements {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+            overflow: hidden;
+        }
+        
+        .floating-element {
+            position: absolute;
+            background: rgba(100, 255, 255, 0.1);
+            border-radius: 50%;
+            animation: float 15s infinite linear;
+        }
+        
+        .tech-icons {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+        
+        .tech-icon {
+            position: absolute;
+            font-size: 1.5rem;
+            color: rgba(255, 255, 255, 0.1);
+            animation: rotate 30s infinite linear;
+        }
+        
+        @keyframes border-glow {
+            0% { opacity: 0.7; }
+            50% { opacity: 1; }
+            100% { opacity: 0.7; }
+        }
+        
+        @keyframes float {
+            0% { transform: translateY(0) rotate(0deg); }
+            100% { transform: translateY(-1000px) rotate(720deg); }
+        }
+        
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        @keyframes title-glitch {
+            0%, 100% { transform: translateX(0); }
+            95% { transform: translateX(0); }
+            96% { transform: translateX(5px); }
+            97% { transform: translateX(-5px); }
+            98% { transform: translateX(5px); }
+            99% { transform: translateX(-5px); }
+        }
+        
+        .particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+        
+        .particle {
+            position: absolute;
+            background: rgba(100, 255, 255, 0.5);
+            border-radius: 50%;
+            animation: particle-float 20s infinite linear;
+        }
+        
+        @keyframes particle-float {
+            0% { 
+                transform: translateY(110%) translateX(0) rotate(0deg); 
+                opacity: 0;
+            }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { 
+                transform: translateY(-10%) translateX(20px) rotate(360deg); 
+                opacity: 0;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .poster-container {
+                width: 95%;
+                border-radius: 1.5rem;
+            }
+            
+            .code-block {
+                margin: 1.5rem;
+                padding: 1.5rem;
+            }
+            
+            .footer {
+                bottom: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="poster-container">
+        <div class="floating-elements">
+            <!-- سيتم إضافة العناصر العائمة بالجافاسكريبت -->
+        </div>
+        
+        <div class="tech-icons">
+            <!-- سيتم إضافة الأيقونات بالجافاسكريبت -->
+        </div>
+        
+        <div class="particles">
+            <!-- سيتم إضافة الجسيمات بالجافاسكريبت -->
+        </div>
+        
+        <div class="header">
+            المستقبل يتكون
+        </div>
+        <div class="slogan">
+            بُناة الأكوان الرقمية
+        </div>
+        <div class="code-block">
+            <div class="code-line"><span class="line-number">1</span><span class="keyword">class</span> <span class="function">Future</span> {</div>
+            <div class="code-line"><span class="line-number">2</span>&nbsp;&nbsp;<span class="function">constructor</span>() {</div>
+            <div class="code-line"><span class="line-number">3</span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">this</span>.vision = <span class="string">"بناء عالم أفضل"</span>;</div>
+            <div class="code-line"><span class="line-number">4</span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">this</span>.tools = [<span class="string">"الإبداع"</span>, <span class="string">"التفكير المنطقي"</span>, <span class="string">"الشغف"</span>];</div>
+            <div class="code-line"><span class="line-number">5</span>&nbsp;&nbsp;}</div>
+            <div class="code-line"><span class="line-number">6</span></div>
+            <div class="code-line"><span class="line-number">7</span>&nbsp;&nbsp;<span class="function">create</span>() {</div>
+            <div class="code-line"><span class="line-number">8</span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">while</span>(<span class="keyword">true</span>) {</div>
+            <div class="code-line"><span class="line-number">9</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">let</span> innovation = <span class="function">developSolution</span>();</div>
+            <div class="code-line"><span class="line-number">10</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;innovation.<span class="function">deploy</span>();</div>
+            <div class="code-line"><span class="line-number">11</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;console.<span class="function">log</span>(<span class="string">'عالمنا يتطور...'</span>);</div>
+            <div class="code-line"><span class="line-number">12</span>&nbsp;&nbsp;&nbsp;&nbsp;}</div>
+            <div class="code-line"><span class="line-number">13</span>&nbsp;&nbsp;}</div>
+            <div class="code-line"><span class="line-number">14</span>}</div>
+            <div class="code-line"><span class="line-number">15</span></div>
+            <div class="code-line"><span class="line-number">16</span><span class="comment">// البرمجة هي لغة العصر</span></div>
+            <div class="code-line"><span class="line-number">17</span><span class="keyword">const</span> ourFuture = <span class="keyword">new</span> <span class="function">Future</span>();</div>
+            <div class="code-line"><span class="line-number">18</span>ourFuture.<span class="function">create</span>();</div>
+        </div>
+        <div class="footer">
+            <i class="fas fa-code"></i> البرمجة ليست مجرد كتابة أكواد، بل هي فن حل المشكلات
+        </div>
+    </div>
+
+    <script>
+        // إنشاء العناصر العائمة
+        const floatingContainer = document.querySelector('.floating-elements');
+        for (let i = 0; i < 15; i++) {
+            const element = document.createElement('div');
+            element.classList.add('floating-element');
+            
+            const size = Math.random() * 50 + 10;
+            const posX = Math.random() * 100;
+            const delay = Math.random() * 5;
+            const duration = Math.random() * 10 + 15;
+            
+            element.style.width = `${size}px`;
+            element.style.height = `${size}px`;
+            element.style.left = `${posX}%`;
+            element.style.top = `${Math.random() * 100 + 100}%`;
+            element.style.animationDelay = `${delay}s`;
+            element.style.animationDuration = `${duration}s`;
+            
+            floatingContainer.appendChild(element);
+        }
+        
+        // إنشاء أيقونات التقنية
+        const techIconsContainer = document.querySelector('.tech-icons');
+        const icons = ['<i class="fab fa-html5"></i>', '<i class="fab fa-css3-alt"></i>', 
+                      '<i class="fab fa-js"></i>', '<i class="fab fa-python"></i>',
+                      '<i class="fas fa-database"></i>', '<i class="fas fa-server"></i>',
+                      '<i class="fas fa-microchip"></i>', '<i class="fas fa-code-branch"></i>'];
+        
+        for (let i = 0; i < 20; i++) {
+            const icon = document.createElement('div');
+            icon.classList.add('tech-icon');
+            icon.innerHTML = icons[Math.floor(Math.random() * icons.length)];
+            
+            const posX = Math.random() * 100;
+            const posY = Math.random() * 100;
+            const delay = Math.random() * 5;
+            const duration = Math.random() * 20 + 20;
+            
+            icon.style.left = `${posX}%`;
+            icon.style.top = `${posY}%`;
+            icon.style.animationDelay = `${delay}s`;
+            icon.style.animationDuration = `${duration}s`;
+            
+            techIconsContainer.appendChild(icon);
+        }
+        
+        // إنشاء جسيمات متحركة
+        const particlesContainer = document.querySelector('.particles');
+        for (let i = 0; i < 30; i++) {
+            const particle = document.createElement('div');
+            particle.classList.add('particle');
+            
+            const size = Math.random() * 5 + 1;
+            const posX = Math.random() * 100;
+            const delay = Math.random() * 5;
+            const duration = Math.random() * 10 + 10;
+            
+            particle.style.width = `${size}px`;
+            particle.style.height = `${size}px`;
+            particle.style.left = `${posX}%`;
+            particle.style.animationDelay = `${delay}s`;
+            particle.style.animationDuration = `${duration}s`;
+            
+            particlesContainer.appendChild(particle);
+        }
+        
+        // تأثيرات تفاعلية عند المرور على الأكواد
+        const codeLines = document.querySelectorAll('.code-line');
+        codeLines.forEach(line => {
+            line.addEventListener('mouseenter', () => {
+                line.style.background = 'rgba(0, 242, 255, 0.1)';
+                line.style.paddingLeft = '10px';
+                line.style.borderLeft = '2px solid #00f2ff';
+            });
+            
+            line.addEventListener('mouseleave', () => {
+                line.style.background = 'transparent';
+                line.style.paddingLeft = '0';
+                line.style.borderLeft = 'none';
+            });
+        });
+    </script>
+</body>
+</html>
